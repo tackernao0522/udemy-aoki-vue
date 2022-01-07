@@ -133,3 +133,47 @@
 
 </html>
 ```
+
+# 6 仮想 DOM
+
+- `section01/index.html`を編集<br>
+
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"> <!-- 仮想DOMの範囲 -->
+    {{ message }}
+  </div>
+
+  <script>
+    // Vueクラス->インスタンス化(実態) new
+    // let app = new Vue({
+
+    // })
+    let app = new Vue({
+      el: '#app', // 仮想DOM
+      data() {
+        return {
+          message: 'Hello' // キー(key): 値(value)
+        }
+      }
+    })
+
+    const html = document.querySelector('html')
+    console.dir(html) // DOMの中身が見られる
+    console.dir(app) // 仮想DOMの中身
+  </script>
+</body>
+
+</html>
+```
