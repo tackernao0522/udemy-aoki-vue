@@ -10,7 +10,11 @@
 </head>
 
 <body>
-  <div id="app"> <!-- 仮想DOMの範囲 -->
+  <!-- リアルDOM JSが繋がっているのかどうかわからない -->
+  <a id="google_link">googleへのリンク</a>
+
+  <div id="app">
+    <!-- 仮想DOMの範囲 -->
     {{ message }}
   </div>
 
@@ -28,9 +32,10 @@
       }
     })
 
-    const html = document.querySelector('html')
-    console.dir(html) // DOMの中身が見られる
-    console.dir(app) // 仮想DOMの中身
+    // 直接DOM操作
+    // idを指定(idが変わればコード変更が必要になってしまう)
+    const googleLink = document.getElementById('google_link')
+    googleLink.href = 'https://google.com'
   </script>
 </body>
 
