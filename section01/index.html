@@ -10,9 +10,6 @@
 </head>
 
 <body>
-  <!-- リアルDOM JSが繋がっているのかどうかわからない -->
-  <a id="google_link">googleへのリンク</a>
-
   <div id="app">
     <!-- 仮想DOMの範囲 -->
     {{ message }}
@@ -22,6 +19,13 @@
     <!-- <a v-bind:href="google">googleへのリンク</a> 正規の書き方 -->
 
     <a :href="google">googleへのリンク</a> <!-- 省略形 -->
+    <br>
+    オブジェクト.キー
+    <a :href="book.url">{{ book.title }}</a>
+    <br>
+    <input v-bind="{name:formInput.name, placeholder:formInput.placeholder}">
+    <br>
+    <input v-bind="formInput">
   </div>
 
   <script>
@@ -34,15 +38,18 @@
       data() { // 初期設定
         return {
           message: 'Hello', // キー(key): 値(value)
-          google: 'https://google.com'
+          google: 'https://google.com',
+          book: {
+            title: '本のタイトル',
+            url: 'https://google.com'
+          },
+          formInput: {
+            name: 'your_name',
+            placeholder: 'お名前を入力してください',
+          }
         }
       }
     })
-
-    // 直接DOM操作
-    // idを指定(idが変わればコード変更が必要になってしまう)
-    const googleLink = document.getElementById('google_link')
-    googleLink.href = 'https://google.com'
   </script>
 </body>
 
