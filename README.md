@@ -347,3 +347,65 @@
 
 </html>
 ```
+
+## 11 v-bind その 3 style/class
+
+- `section01/index.html`を編集<br>
+
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+    .active {
+      border: 1px solid red;
+    }
+
+    .text-danger {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  リアルDOM
+  <div style="color: blue; font-size: 20px">style テスト</div>
+  <br>
+  <div class="active text-danger">classテスト</div>
+  <br>
+  <div id="app">
+    <!-- 仮想DOM -->
+    <div :style="{fontSize: fontSize}">Styleテスト</div>
+    <div :class="{active: isActive}">classテスト</div>
+  </div>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          // font-size: '20px', ケバブケースはNG
+          fontSize: '20px', // キャメルケースで記述する
+          isActive: false,
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
+```
+
+- ブラウザ検証ツールの console にて<br>
+
+```
+app.$data.isActive = true // enter
+app.$data.isActive = false // enter
+// とすると挙動が確認できる
+```
