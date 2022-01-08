@@ -409,3 +409,49 @@ app.$data.isActive = true // enter
 app.$data.isActive = false // enter
 // とすると挙動が確認できる
 ```
+
+## 12 ディレクティブ v-show
+
+- 参考： https://jp.vuejs.org/v2/api/#%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96 <br>
+
+* `section01/index.html`を編集<br>
+
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 仮想DOM -->
+    <div v-show="isDisplay">表示</div>
+    <div v-show="!isDisplay">falseになっています</div>
+  </div>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          isDisplay: true
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
+```
+
+- `検証ツールコンソール`<br>
+
+```
+app.$data.isDisplay = false // enter
+```
