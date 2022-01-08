@@ -284,3 +284,66 @@
 
 </html>
 ```
+
+## 10 v-bind その 2 オブジェクト
+
+- `section01/index.html`を編集<br>
+
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 仮想DOMの範囲 -->
+    {{ message }}
+    <br>
+    <!-- <a href="{{ google }}">googleへのリンク</a> エラーになる -->
+
+    <!-- <a v-bind:href="google">googleへのリンク</a> 正規の書き方 -->
+
+    <a :href="google">googleへのリンク</a> <!-- 省略形 -->
+    <br>
+    オブジェクト.キー
+    <a :href="book.url">{{ book.title }}</a>
+    <br>
+    <input v-bind="{name:formInput.name, placeholder:formInput.placeholder}">
+    <br>
+    <input v-bind="formInput">
+  </div>
+
+  <script>
+    // Vueクラス->インスタンス化(実態) new
+    // let app = new Vue({
+
+    // })
+    let app = new Vue({
+      el: '#app', // 仮想DOM
+      data() { // 初期設定
+        return {
+          message: 'Hello', // キー(key): 値(value)
+          google: 'https://google.com',
+          book: {
+            title: '本のタイトル',
+            url: 'https://google.com'
+          },
+          formInput: {
+            name: 'your_name',
+            placeholder: 'お名前を入力してください',
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
+```
