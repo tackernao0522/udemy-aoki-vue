@@ -12,36 +12,61 @@
 <body>
   <div id="app">
     <!-- 仮想DOM -->
+
     // 配列 (value)
     <ul>
       <li v-for="member in members">
         {{member}}
       </li>
     </ul>
+
     // 配列 (value, index)
     <ul>
       <li v-for="(member, index) in members">
         {{index}} : {{member}}
       </li>
     </ul>
+
     // オブジェクト (value)
     <ul>
       <li v-for="value in book">
         {{value}}
       </li>
     </ul>
+
     // オブジェクト (value, key)
     <ul>
       <li v-for="(value, key) in book">
         {{key}} : {{value}}
       </li>
     </ul>
+
     // オブジェクト (value, key, index)
     <ul>
       <li v-for="(value, key, index) in book">
         {{index}} : {{key}} : {{value}}
       </li>
     </ul>
+
+    // 複数のオブジェクト
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>タイトル</th>
+          <th>著者</th>
+          <th>URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="book in books" :key="book.id"> <!-- indexでkeyを指定するとバグになる時があるのでidで指定する -->
+          <td>{{book.id}}</td>
+          <td>{{book.title}}</td>
+          <td>{{book.author}}</td>
+          <td>{{book.url}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -54,7 +79,27 @@
             title: 'タイトル',
             author: '著者名',
             url: 'https://google.com',
-          }
+          },
+          books: [
+            {
+              id: 1,
+              title: 'タイトル1',
+              author: '著者名1',
+              url: 'https://google.com'
+            },
+            {
+              id: 2,
+              title: 'タイトル2',
+              author: '著者名2',
+              url: 'https://google.com'
+            },
+            {
+              id: 3,
+              title: 'タイトル3',
+              author: '著者名3',
+              url: 'https://google.com'
+            },
+          ]
         }
       }
     })
