@@ -96,3 +96,78 @@ app.$data.signal = 'blue'
 app.$data.signal = 'white'
 'white'
 ```
+
+## 14 v-for その1
+
++ 参考: https://jp.vuejs.org/v2/api/#v-for <br>
+
++ `in`でも`of`でもどちらでも良いがvueの場合は`in`の方が多いかもしれない<br>
+
++ `section01/index.html`を編集<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 仮想DOM -->
+    // 配列 (value)
+    <ul>
+      <li v-for="member in members">
+        {{member}}
+      </li>
+    </ul>
+    // 配列 (value, index)
+    <ul>
+      <li v-for="(member, index) in members">
+        {{index}} : {{member}}
+      </li>
+    </ul>
+    // オブジェクト (value)
+    <ul>
+      <li v-for="value in book">
+        {{value}}
+      </li>
+    </ul>
+    // オブジェクト (value, key)
+    <ul>
+      <li v-for="(value, key) in book">
+        {{key}} : {{value}}
+      </li>
+    </ul>
+    // オブジェクト (value, key, index)
+    <ul>
+      <li v-for="(value, key, index) in book">
+        {{index}} : {{key}} : {{value}}
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          members: ['本田', '香川', '長友'],
+          book: {
+            title: 'タイトル',
+            author: '著者名',
+            url: 'https://google.com',
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
+```
