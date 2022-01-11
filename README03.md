@@ -243,3 +243,115 @@ app.books[0].title = "タイトルを変更" //
 index.html:67 変更されました
 'タイトルを変更'
 ```
+
+## 24 リアクティブシステム
+
+- 参考: https://jp.vuejs.org/v2/guide/reactivity.html <br>
+
+- `section01/index.html`を編集<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      // 仮想DOM
+      <br />
+      {{totalPriceMethods()}} {{totalPriceMethods()}} {{totalPrice}}
+      {{totalPrice}}
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            price: 1,
+            number: 1,
+            reactiveTest: {
+              name: 'テスト',
+            },
+            books: [
+              {
+                id: 1,
+                title: 'タイトル1',
+                author: '著者名1',
+                url: 'https://google.com',
+              },
+              {
+                id: 2,
+                title: 'タイトル2',
+                author: '著者名2',
+                url: 'https://google.com',
+              },
+              {
+                id: 3,
+                title: 'タイトル3',
+                author: '著者名3',
+                url: 'https://google.com',
+              },
+            ],
+          }
+        },
+        methods: {
+          totalPriceMethods() {
+            console.log('methodsです')
+            return this.number * this.price
+          },
+        },
+        computed: {
+          // totalPrice() {
+          //   return this.number * this.price
+          // }
+          totalPrice: (app) => app.number * app.price,
+        },
+        watch: {
+          books: {
+            handler() {
+              console.log('変更されました')
+            },
+            deep: true,
+          },
+        },
+      })
+
+      console.log(this) // windowオブジェクト
+
+      const obj = {
+        test: function () {
+          console.log(this) // オブジェクトの中 そのオブジェクト
+        },
+      }
+
+      const objArrow = {
+        test: () => {
+          console.log(this) // windowオブジェクト
+        },
+      }
+    </script>
+  </body>
+</html>
+```
+
+- `ブラウザコンソール`<br>
+
+```browser:console
+pp.$data //
+{__ob__: Observer}books: (...)number: (...)price: (...)reactiveTest: Objectname: (...)__ob__: Observer {value: {…}, dep: Dep, vmCount: 0}get name: ƒ reactiveGetter()set name: ƒ reactiveSetter(newVal)[[Prototype]]: Object__ob__: Observer {value: {…}, dep: Dep, vmCount: 1}get books: ƒ reactiveGetter()set books: ƒ reactiveSetter(newVal)get number: ƒ reactiveGetter()set number: ƒ reactiveSetter(newVal)get price: ƒ reactiveGetter()set price: ƒ reactiveSetter(newVal)get reactiveTest: ƒ reactiveGetter()set reactiveTest: ƒ reactiveSetter(newVal)[[Prototype]]: Object
+app.reactiveTest.message = 'メッセージ' //
+'メッセージ'
+app.$data.reactiveTest //
+{message: 'メッセージ', __ob__: Observer}message: "メッセージ"name: "テスト"__ob__: Observer {value: {…}, dep: Dep, vmCount: 0}get name: ƒ reactiveGetter()set name: ƒ reactiveSetter(newVal)[[Prototype]]: Object
+Vue.set(app.reactiveTest, 'message2', 'get/setつきです') //
+'get/setつきです'
+app.$data.reactiveTest //
+{message: 'メッセージ', __ob__: Observer}message: "メッセージ"message2: "get/setつきです"name: "テスト"__ob__: Observer {value: {…}, dep: Dep, vmCount: 0}get message2: ƒ reactiveGetter()set message2: ƒ reactiveSetter(newVal)get name: ƒ reactiveGetter()set name: ƒ reactiveSetter(newVal)[[Prototype]]: Objectconstructor: ƒ Object()hasOwnProperty: ƒ hasOwnProperty()isPrototypeOf: ƒ isPrototypeOf()propertyIsEnumerable: ƒ propertyIsEnumerable()toLocaleString: ƒ toLocaleString()toString: ƒ toString()valueOf: ƒ valueOf()__defineGetter__: ƒ __defineGetter__()__defineSetter__: ƒ __defineSetter__()__lookupGetter__: ƒ __lookupGetter__()__lookupSetter__: ƒ __lookupSetter__()__proto__: (...)get __proto__: ƒ __proto__()set __proto__: ƒ __proto__()
+```
