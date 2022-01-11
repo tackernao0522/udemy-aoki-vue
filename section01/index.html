@@ -12,12 +12,6 @@
 <body>
   <div id="app">
     // 仮想DOM
-    <br>
-    {{totalPriceMethods()}}
-    {{totalPriceMethods()}}
-
-    {{totalPrice}}
-    {{totalPrice}}
   </div>
 
   <script>
@@ -25,68 +19,19 @@
       el: '#app',
       data() {
         return {
-          price: 1,
-          number: 1,
-          reactiveTest: {
-            name: 'テスト'
-          },
-          books: [
-            {
-              id: 1,
-              title: 'タイトル1',
-              author: '著者名1',
-              url: 'https://google.com'
-            },
-            {
-              id: 2,
-              title: 'タイトル2',
-              author: '著者名2',
-              url: 'https://google.com'
-            },
-            {
-              id: 3,
-              title: 'タイトル3',
-              author: '著者名3',
-              url: 'https://google.com'
-            },
-          ]
+          test: 'あああ'
         }
       },
-      methods: {
-        totalPriceMethods() {
-          console.log('methodsです')
-          return this.number * this.price
-        }
+      created() {
+        console.log('created')
+        console.log(this.$el) // elementが生成されていたら表示される
+        console.log(this.test)
       },
-      computed: {
-        // totalPrice() {
-        //   return this.number * this.price
-        // }
-        totalPrice: app => app.number * app.price
-      },
-      watch: {
-        books: {
-          handler() {
-            console.log('変更されました')
-          },
-          deep: true
-        }
+      mounted() {
+        console.log('mounted')
+        console.log(this.$el)
       }
     })
-
-    console.log(this) // windowオブジェクト
-
-    const obj = {
-      test: function () {
-        console.log(this) // オブジェクトの中 そのオブジェクト
-      }
-    }
-
-    const objArrow = {
-      test: () => {
-        console.log(this) // windowオブジェクト
-      }
-    }
   </script>
 </body>
 
