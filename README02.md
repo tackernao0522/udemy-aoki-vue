@@ -421,3 +421,85 @@ app.$data.signal = 'white'
   </body>
 </html>
 ```
+
+## 19 v-on その 2 イベントオブジェクト修飾子
+
+- `section01/index.html`を編集<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    // 素のJavaScript
+    <br />
+    <button id="clickEvent" onClick="btnClicked()">クリックしてね</button>
+
+    <div id="app">
+      // 仮想DOM
+      <br />
+      <button v-on:click="btnClicked">クリックしてね</button>
+      <!-- btnClickedには()をつけてもつけなくてもどちらでも良い -->
+      <br />
+      // v-onの省略形@
+      <br />
+      <button @click="btnClicked">クリックしてね</button>
+      <!-- v-onの省略形@ -->
+      <br />
+      <br />
+      // イベント
+      <br />
+      <button @click="btnClickedEvent">Eventクリックしてね</button>
+      <br />
+      // 引数
+      <br />
+      <button @click="btnClickedArgs(1)">引数クリックしてね</button>
+      <br />
+      // 引数とイベント
+      <br />
+      <button @click="btnClickedArgsEvent(1, $event)">
+        引数イベントクリックしてね
+      </button>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {}
+        },
+        methods: {
+          btnClicked() {
+            console.log('Vue クリックされた')
+          },
+          btnClickedEvent(e) {
+            console.log(e)
+          },
+          btnClickedArgs(int) {
+            console.log(int)
+          },
+          btnClickedArgsEvent(int, e) {
+            console.log(int, e)
+          },
+        },
+      })
+
+      function btnClicked() {
+        console.log('JS クリックされた')
+      }
+
+      const clickEvent = document.getElementById('clickEvent')
+      clickEvent.addEventListener('click', (e) => {
+        console.log(e)
+      })
+    </script>
+  </body>
+</html>
+```

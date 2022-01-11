@@ -12,7 +12,8 @@
 <body>
   // 素のJavaScript
   <br>
-  <button onClick="btnClicked()">クリックしてね</button>
+  <button id="clickEvent" onClick="btnClicked()">クリックしてね</button>
+
   <div id="app">
     // 仮想DOM
     <br>
@@ -21,6 +22,19 @@
     // v-onの省略形@
     <br>
     <button @click="btnClicked">クリックしてね</button> <!-- v-onの省略形@ -->
+    <br>
+    <br>
+    // イベント
+    <br>
+    <button @click="btnClickedEvent">Eventクリックしてね</button>
+    <br>
+    // 引数
+    <br>
+    <button @click="btnClickedArgs(1)">引数クリックしてね</button>
+    <br>
+    // 引数とイベント
+    <br>
+    <button @click="btnClickedArgsEvent(1, $event)">引数イベントクリックしてね</button>
   </div>
 
   <script>
@@ -34,6 +48,15 @@
       methods: {
         btnClicked() {
           console.log('Vue クリックされた')
+        },
+        btnClickedEvent(e) {
+          console.log(e)
+        },
+        btnClickedArgs(int) {
+          console.log(int)
+        },
+        btnClickedArgsEvent(int, e) {
+          console.log(int, e)
         }
       }
     })
@@ -41,6 +64,11 @@
     function btnClicked() {
       console.log('JS クリックされた')
     }
+
+    const clickEvent = document.getElementById('clickEvent')
+    clickEvent.addEventListener('click', (e) => {
+      console.log(e)
+    })
   </script>
 </body>
 
