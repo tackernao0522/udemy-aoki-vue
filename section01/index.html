@@ -7,28 +7,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
   <title>Document</title>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="app">
-    <!-- 仮想DOM -->
-
-    // 文字として認識される 基本的にはセキュリティ上こちらを使った方が良い
-    <div v-text="test"></div>
-
-    // htmlとして認識される
-    <div v-html="test"></div>
+  <div id="app" v-cloak>
+    <div v-cloak>{{test1}}</div>
+    <div>{{test2}}</div>
   </div>
 
   <script>
-    let app = new Vue({
-      el: '#app',
-      data() {
-        return {
-          test: 'あああ <br> いいい'
+    setTimeout(() => {
+      new Vue({
+        el: '#app',
+        data() {
+          return {
+            test1: 'v-cloakあり',
+            test2: 'v-cloakなし'
+          }
         }
-      }
-    })
+      })
+    }, 3000)
   </script>
 </body>
 

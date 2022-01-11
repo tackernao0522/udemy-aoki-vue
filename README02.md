@@ -322,3 +322,48 @@ app.$data.signal = 'white'
   </body>
 </html>
 ```
+
+## 17 v-cloak
+
+- 参考: https://jp.vuejs.org/v2/api/#v-cloak <br>
+
+- `section01/index.html`を編集<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" v-cloak>
+      <div v-cloak>{{test1}}</div>
+      <div>{{test2}}</div>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        new Vue({
+          el: '#app',
+          data() {
+            return {
+              test1: 'v-cloakあり',
+              test2: 'v-cloakなし',
+            }
+          },
+        })
+      }, 3000)
+    </script>
+  </body>
+</html>
+```
