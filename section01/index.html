@@ -26,7 +26,27 @@
       data() {
         return {
           price: 1,
-          number: 1
+          number: 1,
+          books: [
+            {
+              id: 1,
+              title: 'タイトル1',
+              author: '著者名1',
+              url: 'https://google.com'
+            },
+            {
+              id: 2,
+              title: 'タイトル2',
+              author: '著者名2',
+              url: 'https://google.com'
+            },
+            {
+              id: 3,
+              title: 'タイトル3',
+              author: '著者名3',
+              url: 'https://google.com'
+            },
+          ]
         }
       },
       methods: {
@@ -41,7 +61,14 @@
         // }
         totalPrice: app => app.number * app.price
       },
-      watch: {}
+      watch: {
+        books: {
+          handler() {
+            console.log('変更されました')
+          },
+          deep: true
+        }
+      }
     })
 
     console.log(this) // windowオブジェクト
