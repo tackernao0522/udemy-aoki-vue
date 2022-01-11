@@ -7,31 +7,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
   <title>Document</title>
-  <style>
-    [v-cloak] {
-      display: none;
-    }
-  </style>
 </head>
 
 <body>
-  <div id="app" v-cloak>
-    <div v-cloak>{{test1}}</div>
-    <div>{{test2}}</div>
+  // 素のJavaScript
+  <br>
+  <button onClick="btnClicked()">クリックしてね</button>
+  <div id="app">
+    // 仮想DOM
+    <br>
+    <button v-on:click="btnClicked">クリックしてね</button> <!-- btnClickedには()をつけてもつけなくてもどちらでも良い -->
+    <br>
+    // v-onの省略形@
+    <br>
+    <button @click="btnClicked">クリックしてね</button> <!-- v-onの省略形@ -->
   </div>
 
   <script>
-    setTimeout(() => {
-      new Vue({
-        el: '#app',
-        data() {
-          return {
-            test1: 'v-cloakあり',
-            test2: 'v-cloakなし'
-          }
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+
         }
-      })
-    }, 3000)
+      },
+      methods: {
+        btnClicked() {
+          console.log('Vue クリックされた')
+        }
+      }
+    })
+
+    function btnClicked() {
+      console.log('JS クリックされた')
+    }
   </script>
 </body>
 
