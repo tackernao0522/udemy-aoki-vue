@@ -367,3 +367,57 @@ app.$data.signal = 'white'
   </body>
 </html>
 ```
+
+## 18 v-on と @
+
+参考: https://jp.vuejs.org/v2/api/#v-on <br>
+
+- `section01/index.html`を編集<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    // 素のJavaScript
+    <br />
+    <button onClick="btnClicked()">クリックしてね</button>
+    <div id="app">
+      // 仮想DOM
+      <br />
+      <button v-on:click="btnClicked">クリックしてね</button>
+      <!-- btnClickedには()をつけてもつけなくてもどちらでも良い -->
+      <br />
+      // v-onの省略形@
+      <br />
+      <button @click="btnClicked">クリックしてね</button>
+      <!-- v-onの省略形@ -->
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {}
+        },
+        methods: {
+          btnClicked() {
+            console.log('Vue クリックされた')
+          },
+        },
+      })
+
+      function btnClicked() {
+        console.log('JS クリックされた')
+      }
+    </script>
+  </body>
+</html>
+```
