@@ -36,13 +36,27 @@
         }
       },
       computed: {
-        totalPrice() {
-          console.log('computedです')
-          return this.number * this.price
-        }
+        // totalPrice() {
+        //   return this.number * this.price
+        // }
+        totalPrice: app => app.number * app.price
       },
       watch: {}
     })
+
+    console.log(this) // windowオブジェクト
+
+    const obj = {
+      test: function () {
+        console.log(this) // オブジェクトの中 そのオブジェクト
+      }
+    }
+
+    const objArrow = {
+      test: () => {
+        console.log(this) // windowオブジェクト
+      }
+    }
   </script>
 </body>
 
