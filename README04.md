@@ -171,3 +171,96 @@
   </body>
 </html>
 ```
+
+## 28 transition トランジション（遷移 移り変わり）
+
+- CSS の transition とは別物<br>
+
+- ルールの沿って class が自動で設定<br>
+
+- ルールに合わせて CSS を書くことで楽に作れる<br>
+
+* 参考： https://jp.vuejs.org/v2/guide/transitions.html <br>
+
+- `section02/transition`ディレクトリを作成<br>
+
+- `section02/transition/index.html`を作成<br>
+
+- `section02/transition/app.scss`を作成<br>
+
+```scss:app.scss
+.fade {
+  &-enter {
+    opacity: 0;
+    &-to {
+      opacity: 1;
+    }
+    &-active {
+      transition: opacity 1s;
+    }
+  }
+  &-leave {
+    opacity: 1;
+    &-to {
+      opacity: 0;
+    }
+    &-active {
+      transition: opacity 1s;
+    }
+  }
+}
+```
+
+- `section02/transition/index.html`を編集<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="app.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .target {
+        transition: opacity 1s;
+      }
+
+      .target.is-hidden {
+        opacity: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="is-show">JS表示/非表示</button>
+    <div id="target" class="target">JS表示されています。</div>
+    <div id="app">
+      <button @click="isShow = !isShow">Vue表示/非表示</button>
+      <transition name="fade">
+        <div v-show="isShow">Vue表示されています。</div>
+      </transition>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            isShow: false,
+          }
+        },
+      })
+
+      // 素のJavaScript
+      const isShow = document.getElementById('is-show')
+      const target = document.getElementById('target')
+
+      isShow.addEventListener('click', () => {
+        target.classList.toggle('is-hidden')
+      })
+    </script>
+  </body>
+</html>
+```
