@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="app.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <script src="https://kit.fontawesome.com/6eaff71ccc.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="isShow = !isShow">画像を見る</button>
+
+    <transition name="fade">
+      <div v-show="isShow">
+        <div class="modal__inner">
+          <div class="modal__close" @click="isShow = !isShow"><i class="fas fa-times"></i></div>
+          <img src="image001.jpg">
+        </div>
+        <div class="modal__background" @click="isShow = !isShow"></div>
+      </div>
+    </transition>
+  </div>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          isShow: false,
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
