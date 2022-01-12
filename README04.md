@@ -264,3 +264,127 @@
   </body>
 </html>
 ```
+
+## 29 サンプル 2: モーダルウィンドウ
+
+- `section02/modal`ディレクトリを作成<br>
+
+- `section02/modal/app.scss`ファイルを作成<br>
+
+```scss:app.scss
+.modal {
+  &__inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    padding: 50px;
+    background-color: #fff;
+    z-index: 2;
+    img {
+      width: 100%;
+    }
+  }
+  &__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    & i {
+      font-size: 20px;
+      color: #333;
+    }
+  }
+  &__background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    cursor: pointer;
+  }
+}
+
+.fade {
+  &-enter {
+    opacity: 0;
+    &-to {
+      opacity: 1;
+    }
+    &-active {
+      transition: opacity 0.6s;
+    }
+  }
+  &-leave {
+    opacity: 1;
+    &-to {
+      opacity: 0;
+    }
+    &-active {
+      transition: opacity 0.6s;
+    }
+  }
+}
+```
+
+- `https://fontawesome.com/`でアカウント登録<br>
+
+* `https://pixabay.com/ja/`で画像をダウンロードする<br>
+
+- `section02/modal/image001.jpg`を配置<br>
+
+* `section02/modal/index.html`を編集<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="app.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script
+      src="https://kit.fontawesome.com/6eaff71ccc.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="isShow = !isShow">画像を見る</button>
+
+      <transition name="fade">
+        <div v-show="isShow">
+          <div class="modal__inner">
+            <div class="modal__close" @click="isShow = !isShow">
+              <i class="fas fa-times"></i>
+            </div>
+            <img src="image001.jpg" />
+          </div>
+          <div class="modal__background" @click="isShow = !isShow"></div>
+        </div>
+      </transition>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            isShow: false,
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
+```
