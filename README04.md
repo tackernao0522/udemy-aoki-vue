@@ -388,3 +388,78 @@
   </body>
 </html>
 ```
+
+## 30 transition-group トランジション複数
+
+- 参考: https://jp.vuejs.org/v2/guide/transitions.html#%E3%83%AA%E3%82%B9%E3%83%88%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B8%E3%82%B7%E3%83%A7%E3%83%B3 <br>
+
+* `section02/transition-group`ディレクトリを作成<br>
+
+* `section02/transition-group/index.html`を作成<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="app.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .list-item {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      .list-enter-active,
+      .list-leave-active {
+        transition: all 1s;
+      }
+
+      .list-enter,
+    .list-leave-to
+
+    /* .list-leave-active for below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="add">Add</button>
+      <button @click="remove">Remove</button>
+      <transition-group name="list" tag="p">
+        <span v-for="item in items" :key="item" class="list-item">
+          {{item}}
+        </span>
+      </transition-group>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            nextNum: 10,
+          }
+        },
+        methods: {
+          randomIndex() {
+            return Math.floor(Math.random() * this.items.length)
+          },
+          add() {
+            this.items.splice(this.randomIndex(), 0, this.nextNum++)
+          },
+          remove() {
+            this.items.splice(this.randomIndex(), 1)
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
+```
