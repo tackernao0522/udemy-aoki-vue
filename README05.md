@@ -249,3 +249,55 @@ length: 4
   </body>
 </html>
 ```
+
+## 33 カスタムクラスのトランジション(animate.css)
+
+- 参考: https://jp.vuejs.org/v2/guide/transitions.html#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B8%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%AF%E3%83%A9%E3%82%B9 <br>
+
+* 参考: https://animate.style/ <br>
+
+- `section02/animate`ディレクトリを作成<br>
+
+- `section02/animate/index.html`を作成<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="show = !show">
+        Toggle render
+      </button>
+      <transition
+        enter-active-class="animate__animated animate__bounce"
+        leave-active-class="animate__animated animate__swing"
+      >
+        <p v-if="show">hello</p>
+      </transition>
+    </div>
+  </body>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          show: false,
+        }
+      },
+    })
+  </script>
+</html>
+```
