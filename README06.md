@@ -48,7 +48,7 @@
 
 | v-model | V-bind(:) と v-on(@)                                       |
 | ------- | ---------------------------------------------------------- |
-| 特徴    | シンプルに作れる<br>修飾子がつけられる（number, lazy, trim | 複雑な内容も設定できる |
+| 特徴    | シンプルに作れる<br>修飾子がつけられる（number, lazy, trim) | 複雑な内容も設定できる |
 | 書き方  | v-model="test"                                             | :valuse = test <br> @input="test = \$event.target.value" |
 | 応用    | computed と組み合わせる事も(get/set)                       | \$event.target.value 以外を扱ったり |
 
