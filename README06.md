@@ -315,3 +315,98 @@ value: "abc"
 ```
 
 - ブラウザで入力して`Vue Devtools`で確認してみる<br>
+
+## 37 v-model 修飾子
+
+- 参考: https://jp.vuejs.org/v2/guide/forms.html <br>
+
+* `section03/v-model-modifier`ディレクトリを作成<br>
+
+* `section03/v-model-modifier/index.html`を作成<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-model 修飾子</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <form>
+        氏名
+        <input type="text" v-model="contact.yourName" />
+        <br />
+        電話番号
+        <input type="tel" v-model.number="contact.tel" />
+        // 修飾子numberは数字が文字列ではなく数値で反映される
+        <br />
+        メールアドレス
+        <!-- <input type="email" v-model.lazy="contact.email" /> -->
+        // 修飾子lazyの場合は入力してカーソルから離れると反映される(Vue
+        Devtoolsで確認)
+        <input type="email" v-model.lazy.trim="contact.email" />
+        // trimを加えると空白がカットされて反映される
+        <br />
+        性別
+        <input type="radio" value="male" v-model="contact.gender" />
+        男性
+        <input type="radio" value="female" v-model="contact.gender" />
+        女性
+        <input type="radio" value="other" v-model="contact.gender" />
+        その他
+        <br />
+        年齢
+        <select v-model="contact.age">
+          <!-- disabledをつけないとiphoneではうまく表示されない -->
+          <option disabled value="">年齢を選択してください</option>
+          <option>10代</option>
+          <option>20代</option>
+          <option>30代</option>
+          <option>40代〜</option>
+        </select>
+        <br />
+        メッセージ
+        <textarea v-model="contact.message"></textarea>
+        <br />
+        このサイトを知った理由
+        <input type="checkbox" value="webサイト" v-model="contact.attracts" />
+        webサイト
+        <input type="checkbox" value="チラシ" v-model="contact.attracts" />
+        チラシ
+        <input type="checkbox" value="その他" v-model="contact.attracts" />
+        その他
+        <br />
+        注意事項に同意する
+        <input type="checkbox" v-model="contact.caution" />
+        <br />
+        <input type="submit" value="送信" />
+      </form>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            contact: {
+              yourName: '',
+              tel: '',
+              email: '',
+              gender: '',
+              age: '',
+              message: '',
+              attracts: [],
+              caution: false,
+            },
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
+```
