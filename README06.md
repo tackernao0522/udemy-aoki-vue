@@ -46,11 +46,11 @@
 
 ## 35 双方向データバインディング(v-bind と v-on)
 
-| v-model | V-bind(:) と v-on(@)                                       |
-| ------- | ---------------------------------------------------------- |
+| v-model | V-bind(:) と v-on(@)                                        |
+| ------- | ----------------------------------------------------------- |
 | 特徴    | シンプルに作れる<br>修飾子がつけられる（number, lazy, trim) | 複雑な内容も設定できる |
-| 書き方  | v-model="test"                                             | :valuse = test <br> @input="test = \$event.target.value" |
-| 応用    | computed と組み合わせる事も(get/set)                       | \$event.target.value 以外を扱ったり |
+| 書き方  | v-model="test"                                              | :valuse = test <br> @input="test = \$event.target.value" |
+| 応用    | computed と組み合わせる事も(get/set)                        | \$event.target.value 以外を扱ったり |
 
 | v-model         | v-bind(:) | v-on(@) |
 | --------------- | --------- | ------- |
@@ -225,3 +225,93 @@ app.test
 validity: ValidityState {valueMissing: false, typeMismatch: false, patternMismatch: false, tooLong: false, tooShort: false, …}
 value: "abc"
 ```
+
+## 36 v-model
+
+- `section03/v-model`ディレクトリを作成<br>
+
+* `section03/v-model/index.html`を作成<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <form>
+        氏名
+        <input type="text" v-model="contact.yourName" />
+        <br />
+        電話番号
+        <input type="tel" v-model="contact.tel" />
+        <br />
+        メールアドレス
+        <input type="email" v-model="contact.email" />
+        <br />
+        性別
+        <input type="radio" value="male" v-model="contact.gender" />
+        男性
+        <input type="radio" value="female" v-model="contact.gender" />
+        女性
+        <input type="radio" value="other" v-model="contact.gender" />
+        その他
+        <br />
+        年齢
+        <select v-model="contact.age">
+          <!-- disabledをつけないとiphoneではうまく表示されない -->
+          <option disabled value="">年齢を選択してください</option>
+          <option>10代</option>
+          <option>20代</option>
+          <option>30代</option>
+          <option>40代〜</option>
+        </select>
+        <br />
+        メッセージ
+        <textarea v-model="contact.message"></textarea>
+        <br />
+        このサイトを知った理由
+        <input type="checkbox" value="webサイト" v-model="contact.attracts" />
+        webサイト
+        <input type="checkbox" value="チラシ" v-model="contact.attracts" />
+        チラシ
+        <input type="checkbox" value="その他" v-model="contact.attracts" />
+        その他
+        <br />
+        注意事項に同意する
+        <input type="checkbox" v-model="contact.caution" />
+        <br />
+        <input type="submit" value="送信" />
+      </form>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            contact: {
+              yourName: '',
+              tel: '',
+              email: '',
+              gender: '',
+              age: '',
+              message: '',
+              attracts: [],
+              caution: false,
+            },
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
+```
+
+- ブラウザで入力して`Vue Devtools`で確認してみる<br>
