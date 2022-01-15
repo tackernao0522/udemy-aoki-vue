@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表示時・クリック時のAjax</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="getDogImage">画像を取得</button>
+    <img :src="dogImage">
+  </div>
+</body>
+
+<script>
+  const url = 'https://dog.ceo/api/breeds/image/random'
+  const options = {
+    method: 'get'
+  }
+
+  let app = new Vue({
+    el: "#app",
+    data() {
+      return {
+        dogImage: '',
+      }
+    },
+    methods: {
+      async getDogImage() {
+        const response = await fetch(url, options)
+          .then((response) => {
+            return response.json()
+          })
+        // console.log(response.message)
+        this.dogImage = response.message
+      }
+    },
+    created() {
+      this.getDogImage()
+    }
+  })
+</script>
+
+</html>
