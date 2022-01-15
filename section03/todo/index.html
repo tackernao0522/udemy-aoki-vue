@@ -65,9 +65,8 @@
       },
       computed: {
         filteredList() {
-          let that = this // thatはselfとも書く thisはVueインスタンスの中身
           return this.todos.filter((todo) => {
-            return todo.item.indexOf(that.query) !== -1 // 値が入っていないと-1を返すという仕様になっている
+            return todo.item.indexOf(this.query) !== -1 // 値が入っていないと-1を返すという仕様になっている
           }) // computedの中には必ずreturnが必要
         }
       }
