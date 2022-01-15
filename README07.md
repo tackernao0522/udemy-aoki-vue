@@ -573,3 +573,177 @@ lodash.html:23 throttleでリサイズ
 lodash.html:23 throttleでリサイズ
 lodash.html:19 debounceでリサイズ
 ```
+
+## 47 watch + Ajax
+
+- 参考: https://jp.vuejs.org/v2/guide/computed.html のウォッチャ <br>
+
+* `section03/watch-ajax`ディレクトリを作成<br>
+
+* `section03/watch-ajax/watch.html`を作成<br>
+
+```html:watch.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watch + Ajax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="getDogImage">画像を取得</button>
+      <img :src="dogImage" />
+    </div>
+  </body>
+
+  <script>
+    let obj = {
+      a: 'テスト',
+    }
+    obj.b = 'あああ'
+    obj.c = test
+
+    function test() {
+      console.log('テスト')
+    }
+
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get',
+    }
+
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          dogImage: '',
+        }
+      },
+      methods: {
+        async getDogImage() {
+          const response = await fetch(url, options).then((response) => {
+            return response.json()
+          })
+          // console.log(response.message)
+          this.dogImage = response.message
+        },
+      },
+      created() {
+        this.getDogImage()
+      },
+    })
+  </script>
+</html>
+```
+
+```browser:console
+obj
+{a: 'テスト', b: 'あああ', c: ƒ}
+```
+
+```browser:console
+obj.c
+ƒ test() { console.log('テスト') } // まだこの関数は実行されていない
+```
+
+```browser:console
+obj.c() // （）をつけつことによってこの関数は実行される
+watch.html:63 テスト
+undefined
+```
+
+- `section03/watch-ajax/watch.html`を編集<br>
+
+```html:watch.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watch + Ajax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="getDogImage">画像を取得</button>
+      <img :src="dogImage" />
+      <input type="text" v-model="watchTest" />
+    </div>
+  </body>
+
+  <script>
+    let obj = {
+      a: 'テスト',
+    }
+    obj.b = 'あああ'
+    obj.c = test
+
+    function test() {
+      console.log('テスト')
+    }
+
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get',
+    }
+
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          dogImage: '',
+          watchTest: '',
+        }
+      },
+      methods: {
+        async getDogImage() {
+          const response = await fetch(url, options).then((response) => {
+            return response.json()
+          })
+          // console.log(response.message)
+          this.dogImage = response.message
+        },
+      },
+      watch: {
+        watchTest() {
+          this.watchDogImage()
+        },
+      },
+      created() {
+        this.getDogImage()
+        this.watchDogImage = _.debounce(this.getDogImage, 1000)
+      },
+    })
+  </script>
+</html>
+```
+
+```browser:console
+app
+Vue {_uid: 0, _isVue: true, $options: {…}, _renderProxy: Proxy, _self: Vue, …}
+$attrs: (...)
+$children: []
+$createElement: ƒ (a, b, c, d)
+$el: div#app
+$listeners: (...)
+$options: {components: {…}, directives: {…}, filters: {…}, el: '#app', _base: ƒ, …}
+$parent: undefined
+$refs: {}
+$root: Vue {_uid: 0, _isVue: true, $options: {…}, _renderProxy: Proxy, _self: Vue, …}
+$scopedSlots: {}
+$slots: {}
+$vnode: undefined
+dogImage: (...)
+getDogImage: ƒ ()
+watchDogImage: ƒ s()
+watchTest: (...)
+```
+
+- ブラウザの input フィールドに文字を入れると間隔を待って画像が切り替わる<br>
