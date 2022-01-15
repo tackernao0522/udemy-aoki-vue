@@ -235,3 +235,213 @@
   </body>
 </html>
 ```
+
+## 45 表示時 ・ クリック時の Ajax
+
+#### 非同期通信(Ajax)簡易表
+
+| タイミング                         | 画面表示                           | クリック時      | リアルタイム |
+| ---------------------------------- | ---------------------------------- | --------------- | ------------ |
+| イベント<br>(ライフサイクルフック) | created<br>mounted<br>{\$nextTick} | @click, @submit | @input       |
+| オプション<br>API                  | methods                            | methods         | watch        |
+
+- サーバーと通信が発生するためある程度(1 秒〜3 秒)間隔を開けて実行する<br>`loadash.js`の`_.debounce` / `_.throttle`<br>
+
+* `section03/ajax`ディレクトリを作成<br>
+
+- https://dog.ceo/dog-api/ の API を使ってみる<br>
+
+* `section03/ajax/ajax.html`ファイルを作成<br>
+
+```html:ajax.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表示時・クリック時のAjax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+  </body>
+
+  <script>
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get',
+    }
+
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {}
+      },
+      methods: {
+        async getDogImage() {
+          const response = await fetch(url, options).then((response) => {
+            return response.json()
+          })
+          console.log(response)
+        },
+      },
+    })
+  </script>
+</html>
+```
+
+```browser:console
+app.getDogImage()
+Promise {<pending>}
+ajax.html:74 {message: 'https://images.dog.ceo/breeds/australian-shepherd/sadie.jpg', status: 'success'}
+```
+
+- `section03/ajax/ajax.html`を編集<br>
+
+```html:ajax.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表示時・クリック時のAjax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+  </body>
+
+  <script>
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get',
+    }
+
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {}
+      },
+      methods: {
+        async getDogImage() {
+          const response = await fetch(url, options).then((response) => {
+            return response.json()
+          })
+          console.log(response.message)
+        },
+      },
+    })
+  </script>
+</html>
+```
+
+```browser:console
+app.getDogImage()
+Promise {<pending>}
+ajax.html:74 https://images.dog.ceo/breeds/terrier-norfolk/n02094114_1467.jpg
+```
+
+- `section03/ajax/ajax.html`を編集<br>
+
+* ボタンを押した時に画像が表示されるバージョン<br>
+
+```html:ajax.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表示時・クリック時のAjax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="getDogImage">画像を取得</button>
+      <img :src="dogImage" />
+    </div>
+  </body>
+
+  <script>
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get',
+    }
+
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          dogImage: '',
+        }
+      },
+      methods: {
+        async getDogImage() {
+          const response = await fetch(url, options).then((response) => {
+            return response.json()
+          })
+          // console.log(response.message)
+          this.dogImage = response.message
+        },
+      },
+    })
+  </script>
+</html>
+```
+
+- ブラウザを読み込んだ時に表示されるようにする<br>
+
+- `section03/ajax/ajax.html`を編集<br>
+
+```html:ajax.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表示時・クリック時のAjax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="getDogImage">画像を取得</button>
+      <img :src="dogImage" />
+    </div>
+  </body>
+
+  <script>
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get',
+    }
+
+    let app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          dogImage: '',
+        }
+      },
+      methods: {
+        async getDogImage() {
+          const response = await fetch(url, options).then((response) => {
+            return response.json()
+          })
+          // console.log(response.message)
+          this.dogImage = response.message
+        },
+      },
+      created() { // 追記
+        this.getDogImage()
+      },
+    })
+  </script>
+</html>
+```
