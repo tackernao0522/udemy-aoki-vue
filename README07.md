@@ -147,3 +147,92 @@
 
 </html>
 ```
+
+## 41 サンプル 4: Todo リスト（フィルターつき）
+
+- `section03/todo`ディレクトリを作成<br>
+
+- `section03/todo/index.html`を作成<br>
+
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      .done {
+        text-decoration: line-through;
+        /* 横線が引かれる */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <input type="text" v-model="newItem" />
+      <button @click.prevent="addItem">追加</button>
+      <input v-model="query" />
+      検索
+
+      <ul v-cloak>
+        <!-- 削除ボタンのindexが必要なのでindexもいれる -->
+        <li v-for="(todo, index) in filteredList">
+          <input type="checkbox" v-model="todo.isDone" />
+          <!-- チェックを入れるとboolean値が反転する -->
+          <span :class="{done: todo.isDone}">{{todo.item}}</span>
+          <!-- isDoneがtrueだったらdoneのクラス(横線)を付ける -->
+          <button @click="deleteItem(index)">削除</button>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            newItem: '',
+            todos: [],
+            query: '',
+          }
+        },
+        methods: {
+          addItem() {
+            if (!this.newItem) return // newItemが空だとreturnで実行しない
+            const todo = {
+              item: this.newItem,
+              isDone: false,
+            }
+            this.todos.push(todo)
+            this.newItem = '' // 空にする
+          },
+          deleteItem(index) {
+            // 配列のindexを引数として取る
+            this.todos.splice(index, 1) // indexの1つ目を消す
+          },
+        },
+        computed: {
+          filteredList() {
+            let that = this // thatはselfとも書く thisはVueインスタンスの中身
+            return this.todos.filter((todo) => {
+              return todo.item.indexOf(that.query) !== -1 // 値が入っていないと-1を返すという仕様になっている
+            }) // computedの中には必ずreturnが必要
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
+```
