@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lodashのdebounce/throttle</title>
+</head>
+
+<body>
+
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    // window.addEventListener('resize', () => {
+    //   console.log('リサイズしたよ')
+    // })
+    window.addEventListener('resize', _.debounce(() => {
+      console.log('debounceでリサイズ')
+    }, 3000))
+
+    window.addEventListener('resize', _.throttle(() => {
+      console.log('throttleでリサイズ')
+    }, 3000))
+  </script>
+</body>
+
+</html>

@@ -438,10 +438,138 @@ ajax.html:74 https://images.dog.ceo/breeds/terrier-norfolk/n02094114_1467.jpg
           this.dogImage = response.message
         },
       },
-      created() { // 追記
+      created() {
+        // 追記
         this.getDogImage()
       },
     })
   </script>
 </html>
+```
+
+## 46 lodash の debounce/throttle
+
+#### Lodash
+
+- JavaScript の便利ライブラリ<br>
+
+```js:sample.js
+_.debounce(fn, 1000) // 間隔を空けて実行
+_.throttle(fn, 1000) // 実行後 指定msは実行しない
+```
+
+参考: https://lodash.com/ <br>
+
+- `section03/lodash`ディレクトリを作成<br>
+
+* `section03/lodash/lodash.html`ファイルを作成<br>
+
+* `ライブラリがない場合`<br>
+
+```html:lodash.html
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lodashのdebounce/throttle</title>
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script>
+      window.addEventListener('resize', () => {
+        console.log('リサイズしたよ')
+      })
+    </script>
+  </body>
+</html>
+```
+
+```browser:console
+7lodash.html:16 リサイズしたよ
+```
+
+- `debounceを使用する`<br>
+
+```html:lodash.html
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lodashのdebounce/throttle</title>
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script>
+      // window.addEventListener('resize', () => {
+      //   console.log('リサイズしたよ')
+      // })
+      window.addEventListener(
+        'resize',
+        _.debounce(() => {
+          console.log('debounceでリサイズ')
+        }, 3000),
+      )
+    </script>
+  </body>
+</html>
+```
+
+```browser:console
+3lodash.html:19 debounceでリサイズ // 3秒待って表示される
+```
+
+- `throttleを使用する`<br>
+
+```html:lodash.html
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lodashのdebounce/throttle</title>
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script>
+      // window.addEventListener('resize', () => {
+      //   console.log('リサイズしたよ')
+      // })
+      window.addEventListener(
+        'resize',
+        _.debounce(() => {
+          console.log('debounceでリサイズ')
+        }, 3000),
+      )
+
+      window.addEventListener(
+        'resize',
+        _.throttle(() => {
+          console.log('throttleでリサイズ')
+        }, 3000),
+      )
+    </script>
+  </body>
+</html>
+```
+
+- リサイズした時に実行されその後 3 秒待って再度実行される<br>
+
+```browser:console
+throttleでリサイズ
+lodash.html:23 throttleでリサイズ
+lodash.html:19 debounceでリサイズ
+lodash.html:23 throttleでリサイズ
+lodash.html:23 throttleでリサイズ
+lodash.html:19 debounceでリサイズ
+lodash.html:23 throttleでリサイズ
+lodash.html:23 throttleでリサイズ
+lodash.html:19 debounceでリサイズ
 ```
