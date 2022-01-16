@@ -145,3 +145,24 @@ let app = new Vue({
   </body>
 </html>
 ```
+
+## 51 props サンプル UI フレームワーク
+
+#### props プロパティ
+
+```
+HTMLタグの属性のように自由に設定できる
+<a href="https://google.com" target="">
+<a href="https://yahoo.jp">
+
+(例) Vuetify のv-btnの場合
+<v-btn text small color="primary>
+<v-btn depressed large color="error">
+```
+
+- 参考: https://vuetifyjs.com/ja/ <br>
+
+- 参考: https://vuetifyjs.com/ja/getting-started/installation/ <br>
+
+* 参考: https://vuetifyjs.com/ja/components/buttons/#api <br>
+
