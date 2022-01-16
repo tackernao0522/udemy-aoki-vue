@@ -18,23 +18,4 @@
 
 #### コンポーネント 簡易表
 
-| スコープ             | グローバル                    | ローカル |
-| -------------------- | ----------------------------- | -------- |
-| 書き方<br>読み込み方 | Vue.component('c-name',<br> { |
-
-template: ``
-})<br>
-
-new Vue({})|import comA from './ComA.vue'<br>
-<br>
-export default {<br>
-components: {<br>
-components: {<br>
-ComA
-}
-}
-}|
-|拡張子|.html, js|.vue|
-|ファイル内|<script></script><br>(script 内に template)|<template></template><br><script></script><br><style></style>|
-|環境|CDN|Vue-CLI<br>(webpack/babel)|
-|特徴|使ってなくても呼び出される<br>(ほぼ使わない)|責務の分離)|責務の分離(役割分担)|
+- 資料参照<br>
