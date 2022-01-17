@@ -405,7 +405,7 @@ template 内は `{{ item.name }}` // props 名.
 
 #### props(プロパティ)の補足
 
-+ 参考: https://jp.vuejs.org/v2/guide/components-props.html <br>
+- 参考: https://jp.vuejs.org/v2/guide/components-props.html <br>
 
 props 名もケバブケース<br>
 
@@ -416,4 +416,94 @@ props: {item: {
   type: Object,
   default: () => ({ count: 0 })
 }}
+```
+
+## 56 \$emit カスタムイベント (子から親へ data を通知する)
+
+#### \$emit(発射 ・ 放出) カスタムイベント
+
+```
+// 親
+
+@custom-event="親のメソッド名"
+
+mthods: {
+  親のメソッド名(e) {
+    console.log(e)
+  }
+}
+```
+
+```
+// 子
+
+@click="子のメソッド名"
+
+methods: {
+  子のメソッド名() {
+    this.$emit('custom-event', 値)
+  }
+}
+```
+
+- `section04/emit/emit.html`ファイルを作成<br>
+
+```html:emit.html
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>$emit カスタムイベント</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .parent {
+        width: 800px;
+        margin: 0 auto;
+        border: 1px red solid;
+      }
+
+      .child {
+        width: 30%;
+        margin: 0 auto;
+        border: 1px blue solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" class="parent">
+      <emit-test @custom-event="parentMethod" class="child"></emit-test>
+    </div>
+  </body>
+
+  <script>
+    let emitTest = {
+      template: `<div>
+      <button @click="childMethod">子側のボタン</button>
+      </div>`,
+      methods: {
+        childMethod() {
+          this.$emit('custom-event', '子の値')
+        },
+      },
+    }
+
+    let app = new Vue({
+      el: '#app',
+      components: {
+        emitTest,
+      },
+      data() {
+        return {}
+      },
+      methods: {
+        parentMethod(e) {
+          console.log(e)
+        },
+      },
+    })
+  </script>
+</html>
 ```
