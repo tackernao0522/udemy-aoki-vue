@@ -400,3 +400,20 @@ template 内は `{{ item.name }}` // props 名.
   </body>
 </html>
 ```
+
+## 55 props の補足
+
+#### props(プロパティ)の補足
+
++ 参考: https://jp.vuejs.org/v2/guide/components-props.html <br>
+
+props 名もケバブケース<br>
+
+タイプが`Object`か`Array`で defaul 設定するなら関数で(注意: 参照渡しになる)<br>
+
+```
+props: {item: {
+  type: Object,
+  default: () => ({ count: 0 })
+}}
+```
