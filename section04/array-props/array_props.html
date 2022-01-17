@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>propsで配列を渡す</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <style>
+    .parent {
+      width: 800px;
+      margin: 0 auto;
+      border: 1px red solid;
+    }
+
+    .child {
+      width: 30%;
+      margin: 0 auto;
+      border: 1px blue solid;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="parent">
+    <array-test v-for="member in members" :key="member.name" :item="member" class="child">
+    </array-test>
+  </div>
+
+  <script>
+    let arrayTest = {
+      props: {
+        item: {
+          type: Object
+        }
+      },
+      template: `<div>
+        <p>{{ item.name }}</p>  <!-- propsのオブジェクト名 -->
+        </div>`
+    }
+
+    let app = new Vue({
+      el: '#app',
+      components: {
+        arrayTest // array-testに置き換わる
+        // 'array-test': arrayTest
+      },
+      data() {
+        return {
+          members: [
+            { name: '久保' },
+            { name: '南野' },
+            { name: '堂安' },
+          ]
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
