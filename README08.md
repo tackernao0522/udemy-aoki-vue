@@ -239,3 +239,79 @@ HTMLタグの属性のように自由に設定できる
   </body>
 </html>
 ```
+
+## 53 props と v-bind
+
+- `section04/props-v-bind/props-v-bind.html`を作成<br>
+
+```html:props-v-bind.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>propsとv-bind</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .parent {
+        width: 800px;
+        margin: 0 auto;
+        border: 1px red solid;
+      }
+
+      .child {
+        width: 30%;
+        margin: 0 auto;
+        border: 1px blue solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" class="parent">
+      <my-component title="テスト" class="child"></my-component>
+      <my-component :title="parentTitle" class="child"></my-component>
+      <my-component disabled class="child"></my-component>
+    </div>
+
+    <script>
+      let myComponent = {
+        template: `<div>
+        あああ
+        {{ getTitle }}
+        <div v-show="isShow">表示</div>
+        </div>`,
+        props: {
+          title: {
+            type: String,
+          },
+          disabled: {
+            type: Boolean,
+            default: false,
+          },
+        },
+        data() {
+          return {
+            isShow: false,
+            getTitle: this.title,
+          }
+        },
+      }
+
+      let app = new Vue({
+        el: '#app',
+        components: {
+          // 'my-component': myComponent
+          myComponent,
+        },
+        data() {
+          return {
+            parentTitle: '親側のタイトル',
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
+```
