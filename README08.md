@@ -315,3 +315,88 @@ HTMLタグの属性のように自由に設定できる
   </body>
 </html>
 ```
+
+## 54 props で配列を渡す
+
+#### props (プロパティ)と v-for
+
+- 親側で配列を作成<br>
+
+```
+data() { return {members: [{}, {}, {}]}}
+
+<array-test
+  v-for="member in members"
+  :key="member.id" // keyは必須
+  :item="member"> // propsのv-bind
+</array-test>
+```
+
+子側 `props: { item: {object} } // 配列内がオブジェクトなら <br>
+
+template 内は `{{ item.name }}` // props 名.
+
+- `section04/array-props/array_props.html`を作成<br>
+
+```html:array_props.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>propsで配列を渡す</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .parent {
+        width: 800px;
+        margin: 0 auto;
+        border: 1px red solid;
+      }
+
+      .child {
+        width: 30%;
+        margin: 0 auto;
+        border: 1px blue solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" class="parent">
+      <array-test
+        v-for="member in members"
+        :key="member.name"
+        :item="member"
+        class="child"
+      ></array-test>
+    </div>
+
+    <script>
+      let arrayTest = {
+        props: {
+          item: {
+            type: Object,
+          },
+        },
+        template: `<div>
+        <p>{{ item.name }}</p>  <!-- propsのオブジェクト名 -->
+        </div>`,
+      }
+
+      let app = new Vue({
+        el: '#app',
+        components: {
+          arrayTest, // array-testに置き換わる
+          // 'array-test': arrayTest
+        },
+        data() {
+          return {
+            members: [{ name: '久保' }, { name: '南野' }, { name: '堂安' }],
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
+```
