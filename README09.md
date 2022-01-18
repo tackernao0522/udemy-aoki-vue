@@ -342,8 +342,8 @@ template: `<div>
 
 || slot| 名前付き slot<br>v-slot(#)| スコープ付きスロット<br>v-slot(#)|
 |----|----|----|----|
-| 特徴 | 子の slot1 つ| 子の slot 複数<br>(複数 slot 時は template タグ)| 子の data をおやで表示できる<br>(スロットプロパティ)|
-| 親   | <my-com><br>タグ内の文章が置き換わる<br></my-com> | <my-com><br><template v-slot:header><br>ヘッダ<br></template><br>main に入ります。<br><template #footer>フッター<br></template><br>ここの文章も main に入ります。<br></my-com> | <my-com><br><template id="test"><br>{{ test.member.name }}<br></template><br><template v-slot="{ member }"><br>{{ member.name }}<br>{{ member.height }}</template><br></my-com> |
+|特徴| 子の slot1 つ|子の slot 複数<br>(複数 slot 時は template タグ)|子の data をおやで表示できる<br>(スロットプロパティ)|
+|親|<my-com><br>タグ内の文章が置き換わる<br></my-com>|<my-com><br><template v-slot:header><br>ヘッダ<br></template><br>main に入ります。<br><template #footer>フッター<br></template><br>ここの文章も main に入ります。<br></my-com>|<my-com><br><template id="test"><br>{{ test.member.name }}<br></template><br><template v-slot="{ member }"><br>{{ member.name }}<br>{{ member.height }}</template><br></my-com> |
 | 子   | テスト<slot>差し込み口</slot><br>テスト           | <slot name="header">header<br></slot><br><slot>main</slot><br><slot name="footer">footer<br></slot>                                                                            | <slot :member="member"><br></slot><br>data() {<br>return { member: { name: '堂安', height: 170}<br>}}                                                                           |
 
 - `section04/named-slot/namedSlot.html`ファイルを作成<br>
