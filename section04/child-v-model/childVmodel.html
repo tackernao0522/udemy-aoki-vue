@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>子側でv-modelを使うパターン</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <style>
+    .parent {
+      width: 800px;
+      margin: 0 auto;
+      border: 1px red solid;
+    }
+
+    .child {
+      width: 30%;
+      margin: 0 auto;
+      border: 1px blue solid;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="parent">
+    <custom-input @child-event="parentValue = $event" class="child"></custom-input>
+    {{ parentValue }}
+  </div>
+
+  <script>
+    let customInput = {
+      template: `<div>
+        <input type="text" v-model="childParam" />
+        </div>`,
+      data() {
+        return {
+          childValue: '',
+        }
+      },
+      computed: {
+        childParam: {
+          get() {
+            return this.childValue
+          },
+          set(value) {
+            this.childValue = value // this.childValueはdataにセットした値
+            this.$emit('child-event', value)
+          },
+        }
+      }
+    }
+
+    let app = new Vue({
+      el: "#app",
+      components: {
+        customInput
+      },
+      data() {
+        return {
+          parentValue: '',
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -6,7 +6,7 @@
 
 |     | v-model<br>(子で v-model なら computed(get/set))                                                                                                                      | v-bind(:)と v-on(a)                                                                                                                                                    |
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 親  | <custom-input<br>  v-model="parentValue"<br>></custom-input><br><br>data({ return { parentValue: '' }})                                           | <custom-input :value="parentValue" @input="parentValue = \$event"></custom-input><br><br>data({ return { parentValue: '' }})                                           |
+| 親  | <custom-input<br> v-model="parentValue"<br>></custom-input><br><br>data({ return { parentValue: '' }})                                                                | <custom-input :value="parentValue" @input="parentValue = \$event"></custom-input><br><br>data({ return { parentValue: '' }})                                           |
 | 子  | <input :value="value" @input="childEvent"><br><br>props: { value: { type: String }}<br><br>methods: {<br>childEvent(e){<br>this.\$emit('input', e.target.value)<br>}} | <input :value="value" @input="childEvent" /><br><br>props: { value: {type: String }}<br><br>methods: {<br>childEvent(e){<br>this.\$emit('input', e.target.value)<br>}} |
 
 - `section04/form-components/form-components.html`ファイルを作成<br>
@@ -56,6 +56,82 @@
         methods: {
           childEvent(e) {
             this.$emit('input', e.target.value)
+          },
+        },
+      }
+
+      let app = new Vue({
+        el: '#app',
+        components: {
+          customInput,
+        },
+        data() {
+          return {
+            parentValue: '',
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
+```
+
+## 58 子側で v-model を使うパターン
+
+- `section04/child-v-model/childVmodel.html`ファイルを作成<br>
+
+```html:childVmodel.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>子側でv-modelを使うパターン</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .parent {
+        width: 800px;
+        margin: 0 auto;
+        border: 1px red solid;
+      }
+
+      .child {
+        width: 30%;
+        margin: 0 auto;
+        border: 1px blue solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" class="parent">
+      <custom-input
+        @child-event="parentValue = $event"
+        class="child"
+      ></custom-input>
+      {{ parentValue }}
+    </div>
+
+    <script>
+      let customInput = {
+        template: `<div>
+        <input type="text" v-model="childParam" />
+        </div>`,
+        data() {
+          return {
+            childValue: '',
+          }
+        },
+        computed: {
+          childParam: {
+            get() {
+              return this.childValue
+            },
+            set(value) {
+              this.childValue = value // this.childValueはdataにセットした値
+              this.$emit('child-event', value)
+            },
           },
         },
       }
