@@ -263,3 +263,76 @@ methods: {
 * Templates (ワイヤーフレーム)<br>
 
 - Pages (ページ)<br>
+
+## 61 slot
+
+#### スロット(差し込む)
+
+```
+<a href="xxx">google</a>
+<a href="xxx">yahoo</a>
+
+親
+<child-com>親側で書いた文字が入ります</child-com>
+
+子
+template: `<div>
+久保 <slot>南野</slot> 堂安
+</div>`
+```
+
+- `section04/slot/slot.html`ファイルを作成<br>
+
+```html:slot.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>slot</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .parent {
+        width: 800px;
+        margin: 0 auto;
+        border: 1px red solid;
+      }
+
+      .child {
+        width: 30%;
+        margin: 0 auto;
+        border: 1px blue solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" class="parent">
+      <child-component class="child">親の文字です</child-component>
+
+      <child-component class="child">
+        <child-component class="child"></child-component>
+      </child-component>
+    </div>
+
+    <script>
+      let childComponent = {
+        template: `<div>
+        久保 <slot>南野</slot> 堂安
+        </div>`,
+      }
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {}
+        },
+        components: {
+          childComponent,
+        },
+      })
+    </script>
+  </body>
+</html>
+```
+
