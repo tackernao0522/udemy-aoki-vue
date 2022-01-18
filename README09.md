@@ -344,7 +344,7 @@ template: `<div>
 |----|----|----|----|
 |特徴| 子の slot1 つ|子の slot 複数<br>(複数 slot 時は template タグ)|子の data をおやで表示できる<br>(スロットプロパティ)|
 |親|`<my-com>タグ内の文章が置き換わる</my-com>`|`<my-com><template v-slot:header>ヘッダ</template>main に入ります。<template #footer>フッター</template>ここの文章も main に入ります。</my-com>`|`<my-com><template #test>{{ test.member.name }}</template><br><template v-slot="{ member }">{{ member.name }}<br>{{ member.height }}</template><br></my-com>`|
-|子|`テスト<slot>差し込み口</slot>テスト`|`<slot name="header">header</slot><slot>main</slot><slot name="footer">footer<br></slot>`|`<slot :member="member"></slot>data() {return { member: { name: '堂安', height: 170}}}`|                                                                         |
+|子|`テスト<slot>差し込み口</slot>テスト`|`<slot name="header">header</slot><slot>main</slot><slot name="footer">footer</slot>`|`<slot :member="member"></slot>data() {return { member: { name: '堂安', height: 170}}}`|
 
 - `section04/named-slot/namedSlot.html`ファイルを作成<br>
 
