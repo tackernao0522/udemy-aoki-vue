@@ -251,3 +251,15 @@ methods: {
   </body>
 </html>
 ```
+
+## 60 Atomic Design
+
+- Atom (原子) ・・ボタン・文字など<br>
+
+* Molecules (分子)<br>
+
+- Organisms (有機体)<br>
+
+* Templates (ワイヤーフレーム)<br>
+
+- Pages (ページ)<br>
