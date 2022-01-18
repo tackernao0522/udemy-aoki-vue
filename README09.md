@@ -336,3 +336,82 @@ template: `<div>
 </html>
 ```
 
+## 62 名前付き slot
+
+#### Slot の簡易表
+
+|      | slot                                              | 名前付き slot<br>v-slot(#)                                                                                                                                                     | スコープ付きスロット<br>v-slot(#)                                                                                                                                               |
+| ---- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 特徴 | 子の slot1 つ                                     | 子の slot 複数<br>(複数 slot 時は template タグ)                                                                                                                               | 子の data をおやで表示できる<br>(スロットプロパティ)                                                                                                                            |
+| 親   | <my-com><br>タグ内の文章が置き換わる<br></my-com> | <my-com><br><template v-slot:header><br>ヘッダ<br></template><br>main に入ります。<br><template #footer>フッター<br></template><br>ここの文章も main に入ります。<br></my-com> | <my-com><br><template id="test"><br>{{ test.member.name }}<br></template><br><template v-slot="{ member }"><br>{{ member.name }}<br>{{ member.height }}</template><br></my-com> |
+| 子   | テスト<slot>差し込み口</slot><br>テスト           | <slot name="header">header<br></slot><br><slot>main</slot><br><slot name="footer">footer<br></slot>                                                                            | <slot :member="member"><br></slot><br>data() {<br>return { member: { name: '堂安', height: 170}<br>}}                                                                           |
+
+- `section04/named-slot/namedSlot.html`ファイルを作成<br>
+
+```html:namedSlot.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>名前付きslot</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <style>
+      .parent {
+        width: 800px;
+        margin: 0 auto;
+        border: 1px red solid;
+      }
+
+      .child {
+        width: 30%;
+        margin: 0 auto;
+        border: 1px blue solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" class="parent">
+      <my-com class="child">
+        <template v-slot:header>
+          ヘッダー
+        </template>
+        mainに入ります
+        <!-- nameのないslotに入る -->
+        <template #footer>
+          <!-- v-solotは#で省略できる -->
+          フッター
+        </template>
+        ここもmainに入ります
+        <!-- nameのないslotに入る -->
+      </my-com>
+    </div>
+
+    <script>
+      let myCom = {
+        template: `<div>
+      <slot name="header">
+      header
+      </slot>
+      <slot name="default">main contents</slot> <!-- name="default"は書かなくても良い -->
+      <slot name="footer">
+      footer
+      </slot>
+      </div>`,
+      }
+
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {}
+        },
+        components: {
+          myCom,
+        },
+      })
+    </script>
+  </body>
+</html>
+```
