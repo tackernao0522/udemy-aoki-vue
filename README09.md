@@ -340,11 +340,11 @@ template: `<div>
 
 #### Slot の簡易表
 
-|| slot| 名前付き slot<br>v-slot(#)| スコープ付きスロット<br>v-slot(#)|
-|----|----|----|----|
-|特徴| 子の slot1 つ|子の slot 複数<br>(複数 slot 時は template タグ)|子の data をおやで表示できる<br>(スロットプロパティ)|
-|親|`<my-com>タグ内の文章が置き換わる</my-com>`|`<my-com><template v-slot:header>ヘッダ</template>main に入ります。<template #footer>フッター</template>ここの文章も main に入ります。</my-com>`|`<my-com><template #test>{{ test.member.name }}</template><br><template v-slot="{ member }">{{ member.name }}<br>{{ member.height }}</template><br></my-com>`|
-|子|`テスト<slot>差し込み口</slot>テスト`|`<slot name="header">header</slot><slot>main</slot><slot name="footer">footer</slot>`|`<slot :member="member"></slot>data() {return { member: { name: '堂安', height: 170}}}`|
+|      | slot                                        | 名前付き slot<br>v-slot(#)                                                                                                                       | スコープ付きスロット<br>v-slot(#)                                                                                                                             |
+| ---- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 特徴 | 子の slot1 つ                               | 子の slot 複数<br>(複数 slot 時は template タグ)                                                                                                 | 子の data をおやで表示できる<br>(スロットプロパティ)                                                                                                          |
+| 親   | `<my-com>タグ内の文章が置き換わる</my-com>` | `<my-com><template v-slot:header>ヘッダ</template>main に入ります。<template #footer>フッター</template>ここの文章も main に入ります。</my-com>` | `<my-com><template #test>{{ test.member.name }}</template><br><template v-slot="{ member }">{{ member.name }}<br>{{ member.height }}</template><br></my-com>` |
+| 子   | `テスト<slot>差し込み口</slot>テスト`       | `<slot name="header">header</slot><slot>main</slot><slot name="footer">footer</slot>`                                                            | `<slot :member="member"></slot>data() {return { member: { name: '堂安', height: 170}}}`                                                                       |
 
 - `section04/named-slot/namedSlot.html`ファイルを作成<br>
 
@@ -414,4 +414,33 @@ template: `<div>
     </script>
   </body>
 </html>
+```
+
+## 63 スコープ付きスロット
+
+- 参考: https://jp.vuejs.org/v2/guide/components-slots.html#%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97%E4%BB%98%E3%81%8D%E3%82%B9%E3%83%AD%E3%83%83%E3%83%88 <br>
+
+* スコープ（有効範囲・使える範囲）<br>
+
+- 子側 data を slot と v-bind で紐付け（スロットプロパティ）<br>
+  親側 v-slot の値として名前をしてし受け取る<br>
+  v-slot:スロット名="sp" v-slot:default="player" (default は省略できる)<br>
+
+* おやで指定した名前.スロットプロパティ名 で表示<br>
+  https://reffect.co.jp/vue/vue-js-slot-scoped-slot <br>
+
+`例`<br>
+
+```
+<my-com>    // v-slotに値を設定
+  <template v-slot="player">
+    {{ player.member.name }}
+  </template>
+</my-com>
+
+
+<slot :member="member"> // スロットプロパティ
+</slot>
+data() { return { member:
+{ name: 'xxx' }}}
 ```
