@@ -384,3 +384,27 @@ size 1 ・・4px 5 なら 5x4= 20px<br>
   </body>
 </html>
 ```
+
+## 69 スロット（activator, item）
+
+#### アクティベータースロット
+
+ボタンをクリックする（ホバーする）と tooltip が表示される（v-menu, v-dialog, v-menu など）<br>
+スコープ付きスロットでメソッドも渡せる<br>
+
+```
+<v-tooltip>
+  <template v-slot:activator="{ on }">
+    <v-btn v-on="on">Click</v-btn>
+  </template>
+  <span>表示</span>
+</v-tooltip>
+```
+
+- `Tooltip` https://vuetifyjs.com/ja/components/tooltips/ <br>
+
+* `Menuts` https://vuetifyjs.com/ja/components/menus/ <br>
+
+- `Dialogs` https://vuetifyjs.com/ja/components/dialogs/ <br>
+
+* `アクセシビリティ` https://vuetifyjs.com/ja/features/accessibility/ <br>
