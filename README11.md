@@ -330,3 +330,16 @@ gitHub などにもこれらは含まない<br>
 `Node.js / vue-cli`インストール済みで`package.json`があれば<br>
 `npm install`で`node_module`生成<br>
 `vue run build`で`dist`生成<br>
+
+## 77 import/export
+
+#### import
+
+```
+import TestCom from './TestCom.vue' 同じ階層
+import TestCom from '../Folder/TestCom.vue' 一つ上のフォルダ
+
+import TestCom from '@/Folder/TestCom.vue' 絶対パス(@はsrcの意味)
+
+SFCはファイル名パスカルケース、単語2文字以上import名もファイル名と同じにしておく
+```
