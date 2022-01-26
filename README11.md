@@ -303,3 +303,30 @@ Vue CLI v4.5.15
 - `Vs Code`の拡張機能`ESLint`が入っていなければ入れておく<br>
 
 - `Vs Code`の拡張機能`Prettier`が入っていなければ入れておく<br>
+
+## 76 ファイル ・ フォルダの構成
+
+#### ファイル構成
+
+`node_modules` -> 各種ライブラリ<br>
+
+`dist` -> コンパイル後のフォルダ<br>
+
+`public` -> テンプレート<br>
+
+`src` -> 開発フォルダ<br>
+
+`package.json` -> npm の設定ファイル<br>
+
+`vue.config.js` -> vue の設定ファイル(要作成)<br>
+
+- `$ npm run build`を実行すると production コンパイルされる<br>
+
+#### 他環境でも実施するなら
+
+`node_modules / dist`は不要<br>
+gitHub などにもこれらは含まない<br>
+
+`Node.js / vue-cli`インストール済みで`package.json`があれば<br>
+`npm install`で`node_module`生成<br>
+`vue run build`で`dist`生成<br>
