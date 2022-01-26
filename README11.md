@@ -343,3 +343,9 @@ import TestCom from '@/Folder/TestCom.vue' 絶対パス(@はsrcの意味)
 
 SFCはファイル名パスカルケース、単語2文字以上import名もファイル名と同じにしておく
 ```
+
+## 78 render と\$mount
+
+- 参考: https://jp.vuejs.org/v2/api/#vm-mount <br>
+
+* 参考: https://jp.vuejs.org/v2/guide/render-function.html <br>
