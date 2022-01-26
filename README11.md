@@ -349,3 +349,91 @@ SFCはファイル名パスカルケース、単語2文字以上import名もフ�
 - 参考: https://jp.vuejs.org/v2/api/#vm-mount <br>
 
 * 参考: https://jp.vuejs.org/v2/guide/render-function.html <br>
+
+## 79 SFC(SingleFileComponent)
+
+#### Vue ファイル（SFC)
+
+```vue:app.vue
+<template></template>
+<script>
+import xxx from 'xxx.vue'
+
+export default {
+  name: 'yyy',
+  components: {
+    xxx,
+  },
+}
+</script>
+<style></style>
+```
+
+- `src/modules`ディレクトリを作成<br>
+
+* `src/modules/TestComponents.vue`コンポーネントを作成<br>
+
+- `<vue まで打つと保管リストが出る` <vue> with default.vue を選択する<br>
+
+* 参考: https://jp.vuejs.org/v2/api/#name <br>
+
+- `src/modules/TestComponent.vue`を編集<br>
+
+```vue:TestComponent.vue
+<template>
+  <div>
+    テストです
+    {{ testData }}
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'TestComponents',
+  data() {
+    return {
+      testData: 'テストdataです',
+    }
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `section06/test/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <TestComponent />
+    // 追記
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+import TestComponent from './modules/TestComponent.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld,
+    TestComponent, // 追記
+  },
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
