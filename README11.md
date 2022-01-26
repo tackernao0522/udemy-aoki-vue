@@ -295,3 +295,11 @@ Vue CLI v4.5.15
 * `$ npm run serve`を実行<br>
 
 - http://localhost:8080/ をブラウザで開く<br>
+
+## 75 Vuter のインストール ・ 設定
+
+- `Vs Code`の拡張機能`Vetur`が入っていなければ入れておく<br>
+
+- `Vs Code`の拡張機能`ESLint`が入っていなければ入れておく<br>
+
+- `Vs Code`の拡張機能`Prettier`が入っていなければ入れておく<br>
