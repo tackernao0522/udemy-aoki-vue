@@ -234,3 +234,64 @@
   </body>
 </html>
 ```
+
+# セクション 6: SFC(SingleFileComponent)
+
+## 74 VuCLI のインストール方法
+
+- 参考: https://cli.vuejs.org/guide/installation.html <br>
+
+- `section06`ディレクトリを作成して`section06`ディレクトリに移動<br>
+
+* インストール `$ npm install -g @vue/cli` <br>
+
+- バージョン情報 `$ vue --version`<br>
+
+#### Vue Cli 新規作成
+
+`$ vue create xxx` CUI コマンド<br>
+`vue ui` GUI グラフィック<br>
+
+`VueVersion`/`Babel`/`TypeScript`/`PWA`/`Router`/`Vuex`/`CSS`/`Linter`/`Test`<br>
+
+- `$ vue create test`を実行<br>
+
+* `Manually select features`を選択して`enter`<br>
+
+- `Space`キーを押すと点いたり消えたりする<br>
+
+* 今回はこの状態で`Enter`<br>
+
+```:terminal
+Vue CLI v4.5.15
+? Please pick a preset: Manually select features
+? Check the features needed for your project:
+❯◉ Choose Vue version
+ ◉ Babel
+ ◯ TypeScript
+ ◯ Progressive Web App (PWA) Support
+ ◯ Router
+ ◯ Vuex
+ ◯ CSS Pre-processors
+ ◉ Linter / Formatter
+ ◯ Unit Testing
+ ◯ E2E Testing
+```
+
+- `2.x`選択して`Enter`<br>
+
+* `ESLint with error prevention only`を選択して`Enter`<br>
+
+- `Lint on save`を選択して`Enter`<br>
+
+* `In dedicated config files`を選択して`Enter`<br>
+
+- `Save this as a preset for future projects? (y/N)`は`N`を入力して`Enter`<br>
+
+* `Use NPM`を選択して`Enter`<br>
+
+- `test`ディレクトリに移動<br>
+
+* `$ npm run serve`を実行<br>
+
+- http://localhost:8080/ をブラウザで開く<br>
