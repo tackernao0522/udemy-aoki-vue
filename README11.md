@@ -493,3 +493,111 @@ module.exports = {
 `$ npm run build`を実行<br>
 
 - これで`dist`ディレクトリの中の`index.html`が表示されるようになる<br>
+
+## 82 補足 1 SCSS(グローバル設定含む)
+
+#### VueCli で SCSS
+
+vue create 時に追加するか<br>
+npm で後から追加<br>
+npm i --save-dev sass-loader node-sass <br>
+
+各コンポーネントで書く場合<br>
+
+```
+<style lang="scss">
+</style>
+```
+
+- `$ npm install --save-dev sass-loader@10.0.2 node-sass@4.14.1`を実行<br>
+
+* 注: node のバージョンを 14 に下げないと node-sass@4.14.1 が入らないかもしれない<br>
+  (参考: https://qiita.com/k3ntar0/items/322e668468716641aa5c) <br>
+
+- `section06/test/src/modules/TestComponent.vue`を編集<br>
+
+```vue:TestComponent.vue
+<template>
+  <div class="red-b">
+    <div class="border__blue">SCSSのテストです</div>
+    テストです
+    {{ testData }}
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'TestComponents',
+  data() {
+    return {
+      testData: 'テストdataです',
+    }
+  },
+}
+</script>
+
+<style scoped lang="scss">
+.red-b {
+  border: 1px red solid;
+}
+
+.border {
+  &__blue {
+    border: 1px blue solid;
+  }
+}
+</style>
+```
+
+#### VueCli で Scss グローバル
+
+`src/assets/sass/main.scss`を作成したとして<br>
+
+- `vue.config.js`に下記を追記<br>
+
+```js:vue.config.js
+module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "@/assets/sass/main.scss";`,
+      },
+    },
+  },
+}
+```
+
+#### ハンズオン
+
+- 参考: https://cli.vuejs.org/guide/css.html#referencing-assets <br>
+
+* `src/assets/sass`ディレクトリを作成<br>
+
+- `src/assets/sass/main.scss`ファイルを作成<br>
+
+```scss:main.scss
+@import './variables';
+```
+
+- `src/assets/sass/_variables.scss`ファイルを作成<br>
+
+```scss:_variables.scss
+$color-primary: #aabbcc;
+```
+
+- `section06/test/vue.config.js`を編集<br>
+
+```js:vue.config.js
+module.exports = {
+  publicPath: '',
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "@/assets/sass/main.scss";`,
+      },
+    },
+  },
+}
+```
+
+- 簡易サーバーを再起動する<br>
