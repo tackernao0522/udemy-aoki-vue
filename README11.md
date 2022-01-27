@@ -468,9 +468,28 @@ export default {
 }
 </script>
 
-<style scoped> // 追記
+<style scoped>
+// 追記
 .red-b {
   border: 1px red solid;
 }
 </style>
 ```
+
+## 81 publicPath(vue.config.js)
+
+- 参考: https://cli.vuejs.org/config/#global-cli-config <br>
+
+* `$ npm run build`を実行<br>
+
+- `section06/test/vue.config.js`ファイルを作成<br>
+
+```js:vue.config.js
+module.exports = {
+  publicPath: '',
+}
+```
+
+`$ npm run build`を実行<br>
+
+- これで`dist`ディレクトリの中の`index.html`が表示されるようになる<br>
