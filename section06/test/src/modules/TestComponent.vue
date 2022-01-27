@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="red-b">
     テストです
     {{ testData }}
   </div>
@@ -10,11 +10,14 @@ export default {
   name: "TestComponents",
   data() {
     return {
-      testData: 'テストdataです'
-    }
-  }
+      testData: "テストdataです",
+    };
+  },
 };
 </script>
 
-<style>
+<style scoped>
+.red-b {
+  border: 1px red solid;
+}
 </style>
