@@ -601,3 +601,163 @@ module.exports = {
 ```
 
 - 簡易サーバーを再起動する<br>
+
+## 83 補足 2 マルチページモード
+
+エントリーポイントをページ毎に作成<br>
+
+`vue.config.js`に
+
+```js:vue.config.js
+Pages{ index: {
+  entry:xxx, template:xxx, filename: xxx, title:xxx, chunks:xxx
+}}
+// などとページ毎に記載
+```
+
+`$ npm install --save-dev html-webpack-plugin preload-webpack-plugin`<br>
+
+`$ vue inspect`でエラーが出ないか確認<br>
+
+#### ハンズオン
+
+- `section06`ディレクトリに移動<br>
+
+* `$ npm install -g @vue/cli`を実行<br>
+
+* `$ vue create multipage`を実行<br>
+
+- `multipage`ディレクトリに移動<br>
+
+* `$ npm run serve`を実行<br>
+
+- 参考: https://cli.vuejs.org/config/#pages <br>
+
+* `section06/multipage/vue.config.js`ファイルを作成<br>
+
+```js:vue.config.js
+module.exports = {
+  publicPath: '',
+  pages: {
+    index: {
+      entry: 'src/index/main.js',
+      template: 'public/index.html',
+      filename: 'index.html',
+      title: 'Index Page',
+      chunks: ['chunk-vendors', 'chunk-common', 'index'],
+    },
+    users: {
+      entry: 'src/users/main.js',
+      template: 'public/users.html',
+      filename: 'users.html',
+      title: 'Users Page',
+      chunks: ['chunk-vendors', 'chunk-common', 'users'],
+    },
+  },
+}
+```
+
+- `section06/multipage/src/index`ディレクトリを作成<br>
+
+- `section06/multipage/src/index/main.js`ファイルを作成<br>
+
+```js:main.js
+import Vue from 'vue'
+import Index from './Index.vue'
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: (h) => h(Index),
+}).$mount('#app')
+```
+
+- `section06/multipage/src/users`ディレクトリを作成<br>
+
+- `section06/multipage/src/users/main.js`ファイルを作成<br>
+
+```js:main.js
+import Vue from 'vue'
+import Users from './Users.vue'
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: (h) => h(Users),
+}).$mount('#app')
+```
+
+- `section06/multipage/src/users/Users.vue`ファイルを作成<br>
+
+```vue:Users.vue
+<template>
+  <div id="app">
+    Users
+    <br />
+    <a href="index.html">index</a>
+    <br />
+    <a href="users.html">users</a>
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `section06/multipage/src/index/Index.vue`ファイルを作成<br>
+
+```vue:Index.vue
+<template>
+  <div id="app">
+    Index
+    <br />
+    <a href="index.html">index</a>
+    <br />
+    <a href="users.html">users</a>
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `section06/multipage/public/users.html`ファイルを作成<br>
+
+```html:users.html
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>
+        We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to continue.
+      </strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+```
+
+- `$ npm install --save-dev html-webpack-plugin preload-webpack-plugin`を実行<br>
+
+* `$ vue inspect`を実行してエラーが出ていなければ OK<br>
+
+* `$ vue inspect > inspect.txt`を実行すると text で出力できる<br>
+
+- `$ npm run serv`を実行<br>
+
+* `$ npm run build`でも試してみる<br>
