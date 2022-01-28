@@ -146,3 +146,53 @@ Vue CLI v4.5.15
 * `$ cd vuerouter`で移動<br>
 
 - `$ npm run serve` を実行<br>
+
+## 85 ファイル ・ フォルダの構成
+
+#### Vue Router テンプレート側
+
+リンク<br>
+
+```
+<router-link to="/foo">Go to Foo</router-link>
+<router-link to="/bar">Go to Bar</router-link>
+```
+
+描画<br>
+
+```
+<router-view></router-view>
+```
+
+#### Vue Router JS 側
+
+```js:index.js
+// コンポーネント
+const Foo = { template: `<div>foo</div>` }
+const Bar = { template: `<div>bar</div>` }
+
+// ルート設定
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar },
+]
+
+// ルーターのインスタンス化
+const router = new VueRouter({
+  routes,
+})
+
+// Vueインスタンス時にrouterも指定
+const app = new Vue({
+  router,
+}).$mount('#app')
+```
+
+#### ファイル ・ フォルダ構成
+
+src/ <br>
+router/index.js ルーターの設定ファイル<br>
+views/About.vue<br>
+views/Home.vue<br>
+App.vue router-view など記載<br>
+main.js エントリポイントで router 読み込み<br>
