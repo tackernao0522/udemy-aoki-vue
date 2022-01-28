@@ -196,3 +196,54 @@ views/About.vue<br>
 views/Home.vue<br>
 App.vue router-view など記載<br>
 main.js エントリポイントで router 読み込み<br>
+
+## 87 router-link の props
+
+- 参考: https://router.vuejs.org/ja/api/#router-link-props <br>
+
+* `section07/vurerouter/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <!-- <router-link to="/about" tag="button">About</router-link> -->
+      <router-link to="/about" exact-active-class="test">About</router-link>
+    </div>
+    <router-view />
+  </div>
+</template>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-active {
+  color: red;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+#nav a.test {
+  color: lightblue;
+}
+</style>
+```
