@@ -102,3 +102,47 @@ https://router.vuejs.org/ja/guide/#html <br>
   </body>
 </html>
 ```
+
+## 85 Vue Router インストール（npm）
+
+- `$ npm install -g @vue/cli`を実行<br>
+
+* `$ vue create vuerouter`を実行<br>
+
+* `Manually select features`を選択して`enter`<br>
+
+- `Space`キーを押すと点いたり消えたりする<br>
+
+* `Router`にチェックを入れて`Enter`<br>
+
+```:terminal
+Vue CLI v4.5.15
+? Please pick a preset: Manually select features
+? Check the features needed for your project:
+ ◉ Choose Vue version
+ ◉ Babel
+ ◯ TypeScript
+ ◯ Progressive Web App (PWA) Support
+❯◉ Router
+ ◯ Vuex
+ ◯ CSS Pre-processors
+ ◉ Linter / Formatter
+ ◯ Unit Testing
+ ◯ E2E Testing
+```
+
+- `2.x`選択して`Enter`<br>
+
+* `Use history mode for router? (Requires proper server setup for index fallback in production) (Y/n)`は`Y`を入力して`Enter`<br>
+
+- `ESLint with error prevention only`を選択して`Enter`<br>
+
+- `Lint on save`を選択して`Enter`<br>
+
+* `In dedicated config files`を選択して`Enter`<br>
+
+- `Save this as a preset for future projects? (y/N)`は`N`を入力して`Enter`<br>
+
+* `$ cd vuerouter`で移動<br>
+
+- `$ npm run serve` を実行<br>
