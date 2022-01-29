@@ -247,3 +247,114 @@ main.js エントリポイントで router 読み込み<br>
 }
 </style>
 ```
+
+## 88 $router と $route
+
+\$router VueRouter インスタンス（全体）<br>
+ページ遷移で使う \$router.push() など<br>
+
+\$route ルートオブジェクト（現在のページ）<br>
+現在のページ情報<br>
+`例` URL に含まれるパラメータ情報<br>
+\$route.params<br>
+\$route.params.id<br>
+
+- 参考: https://router.vuejs.org/ja/api/#%E3%83%AB%E3%83%BC%E3%83%88%E3%82%AA%E3%83%95%E3%82%99%E3%82%B7%E3%82%99%E3%82%A7%E3%82%AF%E3%83%88 <br>
+
+* 参考: https://router.vuejs.org/ja/api/#router-aftereach <br>
+
+- 参考: https://developer.mozilla.org/ja/docs/Web/API/History <br>
+
+* `vuerouter/src/views/About.vue`を編集<br>
+
+```vue:About.vue
+<template>
+  <div class="about">
+    <h1>This is an about page</h1>
+    <button @click="checkRouteInfo">ルート情報</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'About',
+  methods: {
+    checkRouteInfo() {
+      console.log(this.$route)
+      console.log(this.$route.path)
+      console.log(this.$router)
+    },
+  },
+}
+</script>
+```
+
+```browser:console
+{name: 'About', meta: {…}, path: '/about', hash: '', query: {…}, …}
+fullPath: "/about"
+hash: ""
+matched: [{…}]
+meta: {}
+name: "About"
+params: {}
+path: "/about"
+query: {}
+[[Prototype]]: Object
+About.vue?c330:14 /about
+About.vue?c330:13
+{name: 'About', meta: {…}, path: '/about', hash: '', query: {…}, …}
+About.vue?c330:14 /about
+About.vue?c330:15
+VueRouter {app: Vue, apps: Array(1), options: {…}, beforeHooks: Array(0), resolveHooks: Array(0), …}
+afterHooks: [ƒ]
+app: Vue {_uid: 0, _isVue: true, $options: {…}, _renderProxy: Proxy, _self: Vue, …}
+apps: [Vue]
+beforeHooks: []
+fallback: false
+history: HTML5History {router: VueRouter, base: '', current: {…}, pending: null, ready: true, …}
+matcher: {match: ƒ, addRoute: ƒ, getRoutes: ƒ, addRoutes: ƒ}
+mode: "history"
+options:
+base: "/"
+mode: "history"
+routes: Array(2)
+0: {path: '/', name: 'Home', component: {…}}
+1: {path: '/about', name: 'About', component: ƒ}
+length: 2
+[[Prototype]]: Array(0)
+[[Prototype]]: Object
+resolveHooks: []
+currentRoute: (...)
+[[Prototype]]: Object
+```
+
+- 参考: https://router.vuejs.org/ja/guide/essentials/navigation.html <br>
+
+* `vuerouter/src/views/About.vue`を編集<br>
+
+```vue:About.vue
+<template>
+  <div class="about">
+    <h1>This is an about page</h1>
+    <button @click="checkRouteInfo">ルート情報</button>
+    <br />
+    <button @click="goToHome">Homeに戻る</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'About',
+  methods: {
+    checkRouteInfo() {
+      console.log(this.$route)
+      console.log(this.$route.path)
+      console.log(this.$router)
+    },
+    goToHome() {
+      this.$router.push('/') // Homeに戻るようになる
+    },
+  },
+}
+</script>
+```
