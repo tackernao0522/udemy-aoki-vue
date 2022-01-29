@@ -358,3 +358,176 @@ export default {
 }
 </script>
 ```
+
+## 89 動的パラメータ+props その 1
+
+`例`<br>
+
+- `BookList.vue`<br>
+
+```vue:BookList.vue
+this.$router.push({ name: 'Book', params: { id: xxx, title: xxx, content: xxx, }
+})
+```
+
+↓
+
+- `BookDetails.vue`<br>
+
+```vue:BookDetails.vue
+props: { id: Number, title: String, content: String, }
+```
+
+- `router/index.js`<br>
+
+```js:index.js
+path: '/book/:id',
+component: BookDetail,
+props: route => ({
+  id: route.params.id,
+  title: route.params.title,
+  content: route.params.content,
+})
+```
+
+#### ハンズオン
+
+- `vuerouter/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <!-- <router-link to="/about" tag="button">About</router-link> -->
+      <router-link to="/about" exact-active-class="test">About</router-link>
+      |
+      <router-link to="/book">BookList</router-link>
+      // 追記
+    </div>
+    <router-view />
+  </div>
+</template>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-active {
+  color: red;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+#nav a.test {
+  color: lightblue;
+}
+</style>
+```
+
+- `vuerouter/src/views/BookList.vue`ファイルを作成<br>
+
+* `vuerouter/src/components/BookDetail.vue`ファイルを作成<br>
+
+- `vuerouter/src/router/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import BookList from '../views/BookList.vue'
+import BookDetail from '@/components/BookDetail.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/book',
+    name: 'BookList',
+    component: BookList,
+  },
+  {
+    path: '/book/:id',
+    name: 'Book',
+    component: BookDetail,
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+})
+
+export default router
+```
+
+- `vuerouter/src/views/BookList.vue`を編集<br>
+
+```vue:BookList.vue
+<template>
+  <div>
+    <h1>本の一覧</h1>
+    <ul>
+      <li @click="showBookDetail(book.id)" v-for="book in books" :key="book.id">
+        {{ book.title }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BookList',
+  data() {
+    return {
+      bookIndex: -1,
+      books: [
+        { id: 1, title: 'タイトル1', content: '本の内容1' },
+        { id: 2, title: 'タイトル2', content: '本の内容2' },
+        { id: 3, title: 'タイトル3', content: '本の内容3' },
+      ],
+    }
+  },
+  methods: {
+    showBookDetail(id) {
+      this.bookIndex = id - 1
+      console.log(this.bookIndex)
+    },
+  },
+}
+</script>
+
+<style></style>
+```
