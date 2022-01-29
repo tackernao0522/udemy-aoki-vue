@@ -24,10 +24,18 @@ export default {
   },
   methods: {
     showBookDetail(id) {
-      this.bookIndex = id - 1
-      console.log(this.bookIndex)
-    }
-  }
+      this.bookIndex = id - 1;
+      console.log(this.bookIndex);
+      this.$router.push({
+        name: "Book",
+        params: {
+          id: this.books[this.bookIndex].id,
+          title: this.books[this.bookIndex].title,
+          content: this.books[this.bookIndex].content,
+        },
+      });
+    },
+  },
 };
 </script>
 
