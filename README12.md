@@ -531,3 +531,132 @@ export default {
 
 <style></style>
 ```
+
+## 90 動的パラメータ+props その 2
+
+- 参考: https://router.vuejs.org/ja/guide/essentials/named-routes.html <br>
+
+* 参考: https://router.vuejs.org/ja/guide/essentials/passing-props.html <br>
+
+- `vuerouter/src/views/BookList.vue`を編集<br>
+
+```vue:BookList.vue
+<template>
+  <div>
+    <h1>本の一覧</h1>
+    <ul>
+      <li @click="showBookDetail(book.id)" v-for="book in books" :key="book.id">
+        {{ book.title }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BookList',
+  data() {
+    return {
+      bookIndex: -1,
+      books: [
+        { id: 1, title: 'タイトル1', content: '本の内容1' },
+        { id: 2, title: 'タイトル2', content: '本の内容2' },
+        { id: 3, title: 'タイトル3', content: '本の内容3' },
+      ],
+    }
+  },
+  methods: {
+    showBookDetail(id) {
+      this.bookIndex = id - 1
+      console.log(this.bookIndex)
+      this.$router.push({
+        name: 'Book',
+        params: {
+          id: this.books[this.bookIndex].id,
+          title: this.books[this.bookIndex].title,
+          content: this.books[this.bookIndex].content,
+        },
+      })
+    },
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `vuerouter/src/router/index.js`<br>
+
+```js:index.js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import BookList from '../views/BookList.vue'
+import BookDetail from '@/components/BookDetail.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/book',
+    name: 'BookList',
+    component: BookList,
+  },
+  {
+    path: '/book/:id',
+    name: 'Book',
+    component: BookDetail,
+    props: (route) => ({
+      id: route.params.id,
+      title: route.params.title,
+      content: route.params.content,
+    }),
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+})
+
+export default router
+```
+
+- `vuerouter/src/components/BookDetail.vue`を編集<br>
+
+```vue:BookDetails.vue
+<template>
+  <div>
+    <p>本の詳細</p>
+    <p>タイトル：{{ title }}</p>
+    <p>本の内容：{{ content }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    id: Number,
+    title: String,
+    content: String,
+  },
+}
+</script>
+
+<style></style>
+```
