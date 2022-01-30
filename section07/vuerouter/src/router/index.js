@@ -30,7 +30,7 @@ const routes = [
     name: 'Book',
     component: BookDetail,
     props: (route) => ({
-      id: route.params.id,
+      id: Number(route.params.id),
       title: route.params.title,
       content: route.params.content,
     })
