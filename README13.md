@@ -299,3 +299,156 @@ export default {
 
 <style></style>
 ```
+
+## 93 リダイレクトと 404 ページ
+
+- `section07/vuerouter/src/router/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import BookList from '../views/BookList.vue'
+import BookDetail from '@/components/BookDetail.vue'
+import Item from '../views/Item.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/book',
+    name: 'BookList',
+    component: BookList,
+  },
+  {
+    path: '/book/:id',
+    name: 'Book',
+    component: BookDetail,
+    props: (route) => ({
+      id: Number(route.params.id),
+      title: route.params.title,
+      content: route.params.content,
+    }),
+  },
+  {
+    path: '/item/:id',
+    name: 'Item',
+    component: Item,
+  },
+  {
+    path: '*', // どのルートにもマッチしない時
+    redirect: '/',
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+})
+
+export default router
+```
+
+- `section07/vuerouter/src/router/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import BookList from '../views/BookList.vue'
+import BookDetail from '@/components/BookDetail.vue'
+import Item from '../views/Item.vue'
+import NotFound from '@/components/NotFound.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/book',
+    name: 'BookList',
+    component: BookList,
+  },
+  {
+    path: '/book/:id',
+    name: 'Book',
+    component: BookDetail,
+    props: (route) => ({
+      id: Number(route.params.id),
+      title: route.params.title,
+      content: route.params.content,
+    }),
+  },
+  {
+    path: '/item/:id',
+    name: 'Item',
+    component: Item,
+  },
+  {
+    path: '*',
+    // redirect: '/',
+    name: 'NotFound',
+    component: NotFound,
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+})
+
+export default router
+```
+
+- `section07/vuerouter/src/components/NotFound.vue`ファイルを作成<br>
+
+```vue:NotFound.vue
+<template>
+  <div>
+    404 ページが存在しません。
+    <br />
+    <button @click="goToHome">Homeに戻る</button>
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    goToHome() {
+      this.$router.push('/')
+    },
+  },
+}
+</script>
+
+<style></style>
+```
