@@ -452,3 +452,262 @@ export default {
 
 <style></style>
 ```
+
+## 94 ネストされたルート
+
+### ネストされた route-view
+
+```js:index.js
+<router-view />の中に<router-view />
+// router/index.jsで設定
+
+component: User,
+children: [
+  { path: 'profile', component: UserProfile },
+  { path: 'post', component: UserPost },
+]
+```
+
+- 参考: https://router.vuejs.org/ja/guide/essentials/nested-routes.html <br>
+
+#### ハンズオン
+
+- `section07/vuerouter/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <!-- <router-link to="/about" tag="button">About</router-link> -->
+      <router-link to="/about" exact-active-class="test">About</router-link>
+      |
+      <router-link to="/book">BookList</router-link>
+      |
+      <router-link to="/item/1">Item</router-link>
+      |
+      <router-link to="/user/profile">User</router-link>
+    </div>
+    <div class="blue-b">
+      <router-view />
+    </div>
+  </div>
+</template>
+
+<style>
+.blue-b {
+  border: 1px blue solid;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-active {
+  color: red;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+#nav a.test {
+  color: lightblue;
+}
+</style>
+```
+
+- `section07/vuerouter/src/views/User.vue`ファイルを作成<br>
+
+```vue:User.vue
+<template>
+  <div>
+    ユーザー情報
+    <br />
+    <router-view />
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `section07/vuerouter/src/router/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import BookList from '../views/BookList.vue'
+import BookDetail from '@/components/BookDetail.vue'
+import Item from '../views/Item.vue'
+import NotFound from '@/components/NotFound.vue'
+import User from '@/views/User.vue'
+import UserProfile from '@/components/UserProfile.vue'
+import UserPost from '@/components/UserPost.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/book',
+    name: 'BookList',
+    component: BookList,
+  },
+  {
+    path: '/book/:id',
+    name: 'Book',
+    component: BookDetail,
+    props: (route) => ({
+      id: Number(route.params.id),
+      title: route.params.title,
+      content: route.params.content,
+    }),
+  },
+  {
+    path: '/item/:id',
+    name: 'Item',
+    component: Item,
+  },
+  {
+    // ネストされてる場合はnameを入れるとエラーになる
+    path: '/user',
+    component: User,
+    children: [
+      {
+        path: 'profile',
+        component: UserProfile,
+      },
+      {
+        path: `post`,
+        component: UserPost,
+      },
+    ],
+  },
+  {
+    path: '*',
+    // redirect: '/',
+    name: 'NotFound',
+    component: NotFound,
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+})
+
+export default router
+```
+
+- `section07/vuerouter/src/components/UserProfile.vue`ファイルを作成<br>
+
+```vue:UserProfile
+<template>
+  <div>ユーザープロフィール</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `section07/vuerouter/src/components/UserPost.vue`ファイルを作成<br>
+
+```vue:UserPost.vue
+<template>
+  <div>ユーザー記事</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `section07/vuerouter/src/views/User.vue`を編集<br>
+
+```vue:User.vue
+<template>
+  <div>
+    ユーザー情報
+    <br />
+    <div class="green-b">
+      <router-view />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style>
+.green-b {
+  border: 1px solid green;
+}
+</style>
+```
+
+- `section07/vuerouter/src/views/User.vue`を編集<br>
+
+```vue:User.vue
+<template>
+  <div>
+    ユーザー情報
+    <br />
+    <router-link to="profile">プロフィール</router-link>
+    |
+    <router-link to="post">記事</router-link>
+    |
+    <div class="green-b">
+      <router-view />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style>
+.green-b {
+  border: 1px solid green;
+}
+</style>
+```
