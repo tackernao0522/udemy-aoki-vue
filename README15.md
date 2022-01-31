@@ -32,12 +32,82 @@ https://developers.google.com/books/docs/v1/using <br>
 ### クエリーストリング
 
 ```
-const baseUrl = 'https://www.googleapis.com/books/v1/volumes?
+const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
 
 const params = {
   q: `intitle:${keyword}`,
   maxResults:40
 }
-queryParams = new URLSearchParams(params)
+const queryParams = new URLSearchParams(params)
 fetch(baseUrl + queryParams)
+```
+
+## 100 Google Books API の説明
+
+- `section08`ディレクトリを作成<br>
+
+* `section08/test`ディレクトリを作成<br>
+
+* `section08/test/api.html`ファイルを作成<br>
+
+```html:api.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Api</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <input type="text" v-model="keyword" />
+      <button @click="search(keyword)">検索する</button>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            keyword: '',
+            searchResults: [],
+          }
+        },
+        methods: {
+          async search(keyword) {
+            // クエリストリングを作成
+            this.searchResults = []
+            const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
+            const params = {
+              q: `intitle: ${keyword}`,
+              maxResults: 40,
+            }
+            const queryParams = new URLSearchParams(params)
+            console.log(baseUrl + queryParams)
+
+            // fetchでJSON取得
+            const response = await fetch(
+              baseUrl + queryParams,
+            ).then((response) => response.json())
+            console.log(response.items)
+            // 必要な情報を配列にpushして入れる
+            for (let book of response.items) {
+              let title = book.volumeInfo.title
+              let img = book.volumeInfo.imageLinks
+              let description = book.volumeInfo.description
+              this.searchResults.push({
+                title: title ? title : '',
+                image: img ? img.thumbnail : '',
+                description: description ? description.slice(0, 40) : '', // 0番目から40文字をカットする
+              })
+            }
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
 ```
