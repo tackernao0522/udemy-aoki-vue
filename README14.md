@@ -570,3 +570,78 @@ export default {
 }
 </script>
 ```
+
+## 98 history モードの補足<br>
+
+簡易サーバーは `public/index.html`に振り分けている<br>
+
+dist に吐き出す場合は自分で設定する必要がある<br>
+
+`vue.config.js`内に`publicPath: '',`<br>
+
+`index.js`に`base`を設定<br>
+`base: process.env.BASE_URL`<br>
+
+`public`フォルダに `.htaccess`を作成<br>
+
+- `section07/vuerouter/src/views/Home.vue`を編集<br>
+
+```vue:Home.vue
+<template>
+  <div class="home">
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <button @click="checkProcessEnv">process.envを表示</button>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import HelloWorld from '@/components/HelloWorld.vue'
+
+export default {
+  name: 'Home',
+  components: {
+    HelloWorld,
+  },
+  methods: {
+    checkProcessEnv() {
+      console.log(prosecc.env)
+    },
+  },
+}
+</script>
+```
+
+- `section07/vuerouter/vue.config.js`ファイルを作成<br>
+
+```js:vue.config.js
+module.exports = {
+  publicPath: '',
+}
+```
+
+- `section07/vuerouter/.env`ファイルを作成<br>
+
+* 参考: https://www.google.com/search?q=dotenv+node.js&rlz=1C5CHFA_enJP955JP955&oq=dotenv+node.js&aqs=chrome..69i57j0i30l4j0i8i30l5.5884j0j15&sourceid=chrome&ie=UTF-8 <br>
+
+- 参考: https://router.vuejs.org/ja/guide/essentials/history-mode.html#%E3%82%B5%E3%83%BC%E3%83%8F%E3%82%99%E3%83%BC%E3%81%AE%E8%A8%AD%E5%AE%9A%E4%BE%8B <br>
+
+* `section07/vuerouter/public/.htaccess`ファイルを作成<br>
+
+`apache`の設定<br>
+
+```
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+
+- 簡易サーバーと停止して `$ npm run build`を実行<br>
+
+* Web Server for Chrome で`dist`フォルダを選択して試してみる<br>
