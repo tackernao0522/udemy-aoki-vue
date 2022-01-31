@@ -2,7 +2,7 @@
   <div class="about">
     <h1>This is an about page</h1>
     <button @click="checkRouteInfo">ルート情報</button>
-    <br>
+    <br />
     <button @click="goToHome">Homeに戻る</button>
   </div>
 </template>
@@ -17,7 +17,15 @@ export default {
       console.log(this.$router);
     },
     goToHome() {
-      this.$router.push('/') // Homeに戻るようになる
+      this.$router.push("/"); // Homeに戻るようになる
+    },
+  },
+  beforeRouteLeave(to, from, next) {
+    const checkLeave = window.confirm("本当にこのページを離れますか？");
+    if (checkLeave) {
+      next();
+    } else {
+      next(false);
     }
   },
 };
