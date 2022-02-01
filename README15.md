@@ -304,3 +304,61 @@ localStorage.setItem(key, parsed)
   </body>
 </html>
 ```
+
+## 104 Vuetify のインストール（vue-add）
+
+`$ npm install --save-dev vuetify` インストールのみ<br>
+`vue add vuetify` ファイル書き換え含む<br>
+
+プロジェクトに追加できるようにファイルに記述<br>
+
+`main.js`, `router/index.js`, `plugin/vuetify.js`, `App.vue`など<br>
+
+### ハンズオン
+
+- `section08`ディレクトリに移動<br>
+
+* `$ vue create bookapp`を実行<br>
+
+* `Manually select features`を選択して`Enter`<br>
+
+- `Router`を追加して`Enter`<br>
+
+```
+? Please pick a preset: Manually select features
+? Check the features needed for your project:
+ ◉ Choose Vue version
+ ◉ Babel
+ ◯ TypeScript
+ ◯ Progressive Web App (PWA) Support
+❯◉ Router
+ ◯ Vuex
+ ◯ CSS Pre-processors
+ ◉ Linter / Formatter
+ ◯ Unit Testing
+ ◯ E2E Testing
+```
+
+- `2.x`を選択して`Enter`<br>
+
+* `Y`を入力して`Enter`<br>
+
+- `ESLint with error prevention only`を選択して`Enter`<br>
+
+* `Lint on save`を選択して`Enter`<br>
+
+- `In dedicated config files`を選択して`Enter`<br>
+
+* `N`を入力して`Enter`<br>
+
+- `section08/bookapp`ディレクトリに移動<br>
+
+* `$ npm run serve`を実行<br>
+
+- `$ vue add vuetify`を実行<br>
+
+* `Y`を入力して`Enter`<br>
+
+- `Default (recommended)`を選択して`Enter`<br>
+
+* `$ npm run serve`を実行<br>
