@@ -111,3 +111,47 @@ fetch(baseUrl + queryParams)
   </body>
 </html>
 ```
+
+## 102 LocalStorage の解説
+
+### Coolie & WebStorage
+
+|                 | サイズ                  | サーバー通信                 | 有効期限               | 範囲           |
+| --------------- | ----------------------- | ---------------------------- | ---------------------- | -------------- |
+| クッキー        | 4KB                     | 毎回                         | 指定期限まで           |                |
+| Local Storage   | 1 オリジンあたり<br>5MB | 通信しない<br>（必要時のみ） | なし                   | オリジン単位   |
+| Session Storage | 1 オリジンあたり<br>5MB | 通信しない<br>（必要時のみ） | ウィンドウを閉じるまで | セッション単位 |
+
+今回は LocalStorage で（DB の代わり）<br>
+
+### LocalStorage
+
+```
+// 取得
+localStorage.getItem(key)
+
+// 保存
+localStorage.setItem(key)
+
+// 削除
+localStorage.removeItem(key)
+```
+
+※ LocalStorage に保存するには文字列に変換する必要がある<br>
+
+### JSON エンコード/デコード
+
+`JSON.parse()`（LocalStorage）に保存されているものを object に変換する/`JSON.stringify()`（文字列に変換）<br>
+
+### LocalStorage と JSON
+
+```
+// 取得 JSON->Object
+JSON.parse(localStorage.getItem(key))
+
+// 保存 Object->JSON
+const parsed = JSON.stringify(Object)
+localStorage.setItem(key, parsed)
+```
+
+- 参考: https://jp.vuejs.org/v2/cookbook/client-side-storage.html <br>
