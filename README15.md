@@ -362,3 +362,214 @@ localStorage.setItem(key, parsed)
 - `Default (recommended)`を選択して`Enter`<br>
 
 * `$ npm run serve`を実行<br>
+
+## 105 ファイル ・ フォルダ整理<br>
+
+### ファイル ・ フォルダ構成
+
+```
+src
+  App.vue
+  main.js
+  router/index.js
+  global/
+    Header.vue
+    Footer.vue
+  pages/
+    BookIndex.vue
+    BookSearch.vue
+    BookEdit.vue
+```
+
+- `src/components`と`src/views`ディレクトリを削除
+
+* `src/global`と`src/pages`ディレクトリを作成<br>
+
+- `src/global/Header.vue`と`src/global/Footer.vue`ファイルを作成<br>
+
+- `src/global/Header.vue`を編集<br>
+
+```vue:Header.vue
+<template>
+  <div>ヘッダー</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `src/global/Footer.vue`を編集<br>
+
+```vue:Footer.vue
+<template>
+  <div>フッター</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `src/pages/BookIndex.vue`と`src/pages/BookSearch.vue`と`src/pages/BookEdit.vue`ファイルを作成<br>
+
+* `src/pages/BookEdit.vue`を編集<br>
+
+```vue:BookEdit.vue
+<template>
+  <div>BookEdit</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `src/pages/BookIndex.vue`を編集<br>
+
+```vue:BookIndex.vue
+<template>
+  <div>BookIndex</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+`src/pages/BookSearch.vue`を編集<br>
+
+```vue:BookSearch.vue
+<template>
+  <div>BookSearch</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <v-app>
+  // <v-app-bar app color="primary" dark>タグをカット
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: 'App',
+
+  data: () => ({
+    //
+  }),
+}
+</script>
+```
+
+- `src/global/Header.vue`を編集<br>
+
+```vue:Header.vue
+<template>
+  <div>
+    <v-app-bar app color="primary" dark>
+      <v-spacer></v-spacer>
+    </v-app-bar>
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <v-app>
+    <Header />
+
+    <v-main>
+      <router-view />
+    </v-main>
+    <Footer />
+  </v-app>
+</template>
+
+<script>
+import Footer from './global/Footer.vue'
+import Header from './global/Header.vue'
+
+export default {
+  components: {
+    Header,
+    Footer,
+  },
+  name: 'App',
+
+  data: () => ({
+    //
+  }),
+}
+</script>
+```
+
+- `src/router/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import BookIndex from '../pages/BookIndex.vue'
+import BookSearch from '../pages/BookSearch.vue'
+import BookEdit from '../pages/BookEdit.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'BookIndex',
+    component: BookIndex,
+  },
+  {
+    path: '/search',
+    name: 'BookSearch',
+    component: BookSearch,
+  },
+  {
+    path: '/edit',
+    name: 'BookEdit',
+    component: BookEdit,
+  },
+  {
+    path: '*',
+    redirect: '/',
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+})
+
+export default router
+```
