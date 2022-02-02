@@ -1,18 +1,27 @@
+## 106 検索画面 fetch, v-card
+
+- 参考: https://vuetifyjs.com/ja/components/text-fields/ <br>
+
+* `section08/bookapp/src/pages/BookSearch.vue`を編集<br>
+
+```vue:BookSearch.vue
 <template>
   <div>
     <v-container>
       <v-row>
         <v-col cols="6">
-          <v-text-field label="本のタイトルを検索" v-model="keyword">
-          </v-text-field>
+          <v-text-field
+            label="本のタイトルを検索"
+            v-model="keyword"
+          ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="3">
-          <v-btn color="primary" @click="search(keyword)"> 検索する </v-btn>
+          <v-btn color="primary" @click="search(keyword)">検索する</v-btn>
         </v-col>
         <v-col cols="3">
-          <v-btn color="secondary" to="/"> 一覧画面に戻る </v-btn>
+          <v-btn color="secondary" to="/">一覧画面に戻る</v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -35,7 +44,7 @@
                 <v-spacer></v-spacer>
                 <v-card-actions>
                   <v-btn fab dark color="indigo" @click="addBookList(index)">
-                    <v-icon dark> mdi-plus </v-icon>
+                    <v-icon dark>mdi-plus</v-icon>
                   </v-btn>
                 </v-card-actions>
               </v-col>
@@ -49,45 +58,47 @@
 
 <script>
 export default {
-  name: "BookSearch",
+  name: 'BookSearch',
   data() {
     return {
-      keyword: "",
+      keyword: '',
       searchResults: [],
-    };
+    }
   },
   methods: {
     async search(keyword) {
       // クエリストリングを作成
-      this.searchResults = [];
-      const baseUrl = "https://www.googleapis.com/books/v1/volumes?";
+      this.searchResults = []
+      const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
       const params = {
         q: `intitle: ${keyword}`,
         maxResults: 40,
-      };
-      const queryParams = new URLSearchParams(params);
-      console.log(baseUrl + queryParams);
+      }
+      const queryParams = new URLSearchParams(params)
+      console.log(baseUrl + queryParams)
 
       // fetchでJSON取得
       const response = await fetch(baseUrl + queryParams).then((response) =>
-        response.json()
-      );
-      console.log(response.items);
+        response.json(),
+      )
+      console.log(response.items)
       // 必要な情報を配列にpushして入れる
       for (let book of response.items) {
-        let title = book.volumeInfo.title;
-        let img = book.volumeInfo.imageLinks;
-        let description = book.volumeInfo.description;
+        let title = book.volumeInfo.title
+        let img = book.volumeInfo.imageLinks
+        let description = book.volumeInfo.description
         this.searchResults.push({
-          title: title ? title : "",
-          image: img ? img.thumbnail : "",
-          description: description ? description.slice(0, 40) : "", // 0番目から40文字をカットする
-        });
+          title: title ? title : '',
+          image: img ? img.thumbnail : '',
+          description: description ? description.slice(0, 40) : '', // 0番目から40文字をカットする
+        })
       }
     },
   },
-};
+}
 </script>
 
-<style>
-</style>
+<style></style>
+```
+
+- 参考: https://vuetifyjs.com/ja/components/cards/#section-30b030ea30c330c9 <br>
