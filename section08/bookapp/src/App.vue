@@ -1,12 +1,9 @@
 <template>
   <v-app>
     <Header />
-
     <v-main>
       <v-container>
-        <router-view
-          @add-book-list="addBook"
-         />
+        <router-view :books="books" @add-book-list="addBook" />
       </v-container>
     </v-main>
     <Footer />
@@ -47,11 +44,15 @@ export default {
         title: e.title,
         image: e.image,
         description: e.description,
-        readDate: '',
-        memo: '',
+        readDate: "",
+        memo: "",
       });
       // this.newBook = "";
       this.saveBooks();
+      // -1は後ろから1番目 (-1)[0]とすると一番最後から0番目 idを追加するとそのidを取得
+      // 最後に追加したidの取得コードである
+      // console.log(this.books.slice(-1)[0].id);
+      this.goToEditPage(this.books.slice(-1)[0].id);
     },
     removeBook(x) {
       this.books.splice(x, 1);
@@ -60,6 +61,9 @@ export default {
     saveBooks() {
       const parsed = JSON.stringify(this.books);
       localStorage.setItem(STORAGE_KEY, parsed);
+    },
+    goToEditPage(id) {
+      this.$router.push(`/edit/${id}`);
     },
   },
 };
