@@ -199,3 +199,63 @@ export default {
 ```
 BookEdit [ { "id": 0, "title": "HTML5 Canvas", "image": "http://books.google.com/books/content?id=igSotgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", "description": "HTML5 Canvasについての解説書", "readDate": "", "memo": "" }, { "id": 1, "title": "PHPﾌﾚｰﾑﾜｰｸLaravel入門第2版", "image": "http://books.google.com/books/content?id=Y3vlDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api", "description": "人気No.1フレームワークのロングセラー定番解説書が、新バージョン対応で改訂!L", "readDate": "", "memo": "" }, { "id": 2, "title": "ゲームプログラミングC++", "image": "http://books.google.com/books/content?id=-2Z9DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api", "description": "誰も教えてくれなかった、 ゲーム開発の基本を徹底的に学ぼう！ ・ゲームとはどんな", "readDate": "", "memo": "" } ]
 ```
+
+## 109 beforeRouteEnter + \$nextTick
+
+| NO  | タイミング         | グローバル（アロー関数) | ルート単位（アロー関数） | コンポーネント内       | 用途                    |
+| --- | ------------------ | ----------------------- | ------------------------ | ---------------------- | ----------------------- |
+| 1   | トリガ（クリック） |                         |                          |                        |                         |
+| 2   |                    | globalEach              |                          | beforeRouteLeave       | 本当に離れますか？      |
+| 3   |                    | beforeEach              |                          |                        | 認証                    |
+| 4   |                    |                         |                          | beforeRouteUpdate      | watch \$route の代用    |
+| 5   |                    |                         | beforeEnter              |                        |                         |
+| 6   | 非同期ルートを解決 |                         |                          |                        |                         |
+| 7   |                    |                         |                          | beforeRouteEnter       |                         |
+| 8   |                    | beforeResolve           |                          |                        |                         |
+| 9   | ナビゲーション確定 |                         |                          |                        |                         |
+| 10  |                    | afterEach               |                          |                        |                         |
+| 11  | DOM 更新           |                         |                          |                        |                         |
+| 12  |                    |                         |                          | beforeRouteEnter(next) | next の callback を呼ぶ |
+
+- 参考: https://router.vuejs.org/ja/guide/advanced/navigation-guards.html#%E3%83%AB%E3%83%BC%E3%83%88%E5%8D%98%E4%BD%8D%E3%82%AB%E3%82%99%E3%83%BC%E3%83%88%E3%82%99 のコンポーネント内ガード<br>
+
+* 参考: https://jp.vuejs.org/v2/guide/reactivity.html#%E9%9D%9E%E5%90%8C%E6%9C%9F%E6%9B%B4%E6%96%B0%E3%82%AD%E3%83%A5%E3%83%BC <br>
+
+- `section08/bookapp/src/pages/BookEdit.vue`を編集<br>
+
+```vue:BookEdit.vue
+<template>
+  <div>
+    BookEdit
+    {{ book.title }}
+    {{ books }}
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BookEdit',
+  props: {
+    books: Array,
+  },
+  data() {
+    return {
+      book: '',
+    }
+  },
+  // 編集
+  beforeRouteEnter(to, from, next) {
+    // thisは使えない vmを使う
+    next((vm) => {
+      // `vm` を通じてコンポーネントインスタンスにアクセス
+      vm.$nextTick(() => {
+        vm.book = vm.books[vm.$route.params.id]
+        console.log(vm.book)
+      })
+    })
+  },
+}
+</script>
+
+<style></style>
+```
