@@ -3,7 +3,11 @@
     <Header />
     <v-main>
       <v-container>
-        <router-view :books="books" @add-book-list="addBook" />
+        <router-view
+          :books="books"
+          @add-book-list="addBook"
+          @update-book-info="updateBookInfo"
+        />
       </v-container>
     </v-main>
     <Footer />
@@ -16,12 +20,11 @@ import Header from "./global/Header.vue";
 const STORAGE_KEY = "books";
 
 export default {
+  name: "App",
   components: {
     Header,
     Footer,
   },
-  name: "App",
-
   data() {
     return {
       books: [],
@@ -61,6 +64,19 @@ export default {
     saveBooks() {
       const parsed = JSON.stringify(this.books);
       localStorage.setItem(STORAGE_KEY, parsed);
+    },
+    updateBookInfo(e) {
+      const updateInfo = {
+        id: e.id,
+        readDate: e.readDate,
+        memo: e.memo,
+        title: this.books[e.id].title,
+        image: this.books[e.id].image,
+        description: this.books[e.id].description,
+      };
+      this.books.splice(e.id, 1, updateInfo);
+      this.saveBooks();
+      this.$router.push("/");
     },
     goToEditPage(id) {
       this.$router.push(`/edit/${id}`);
