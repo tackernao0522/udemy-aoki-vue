@@ -1,3 +1,8 @@
+## 113 BookEdit date の修正
+
+- `section08/bookapp/src/pages/BookEdit.vue`を編集<br>
+
+```vue:BookEdit.vue
 <template>
   <div>
     <v-row>
@@ -8,7 +13,7 @@
               <v-img :src="book.image"></v-img>
             </v-col>
             <v-col cols="8">
-              <v-card-title> タイトル：{{ book.title }} </v-card-title>
+              <v-card-title>タイトル：{{ book.title }}</v-card-title>
               読んだ日：
               <v-menu
                 v-model="menu"
@@ -34,9 +39,9 @@
                 ></v-date-picker>
               </v-menu>
               感想：
-              <v-textarea class="mx-2" v-model="book.memo">{{
-                book.memo
-              }}</v-textarea>
+              <v-textarea class="mx-2" v-model="book.memo">
+                {{ book.memo }}
+              </v-textarea>
               <v-card-actions>
                 <v-btn color="secondary" to="/">一覧に戻る</v-btn>
                 <v-btn color="info" @click="updateBookInfo">保存する</v-btn>
@@ -51,24 +56,24 @@
 
 <script>
 export default {
-  name: "BookEdit",
+  name: 'BookEdit',
   props: {
     books: Array,
   },
   data() {
     return {
-      book: "",
-      date: "",
+      book: '',
+      date: '', // 空にする
       menu: false,
-    };
+    }
   },
   methods: {
     updateBookInfo() {
-      this.$emit("update-book-info", {
+      this.$emit('update-book-info', {
         id: this.$route.params.id,
         readDate: this.date,
         memo: this.book.memo,
-      });
+      })
     },
   },
   beforeRouteEnter(to, from, next) {
@@ -76,18 +81,19 @@ export default {
     next((vm) => {
       // `vm` を通じてコンポーネントインスタンスにアクセス
       vm.$nextTick(() => {
-        vm.book = vm.books[vm.$route.params.id];
+        vm.book = vm.books[vm.$route.params.id]
         // console.log(vm.book);
+        // 追記
         if (vm.book.readDate) {
-          vm.date = vm.book.readDate;
+          vm.date = vm.book.readDate
         } else {
-          vm.date = new Date().toISOString().substr(0, 10);
+          vm.date = new Date().toISOString().substr(0, 10)
         }
-      });
-    });
+      })
+    })
   },
-};
+}
 </script>
 
-<style>
-</style>
+<style></style>
+```
