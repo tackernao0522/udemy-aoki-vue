@@ -259,3 +259,98 @@ export default {
 
 <style></style>
 ```
+
+## 110 BookEdit カレンダーなど
+
+- TextArea 参考: https://vuetifyjs.com/ja/components/textareas/#section-4f7f304465b9 <br>
+
+- ダイアログとメニュー<br>
+  参考: https://vuetifyjs.com/ja/components/date-pickers/#section-30a230af30c630a330d630d430c330ab30fc <br>
+
+* Date Picker 日本語化
+  参考: https://arm4.hatenablog.com/entry/2018/08/17/155344 <br>
+
+- `section08/bookapp/src/pages/BookEdit.vue`を編集<br>
+
+```vue:BookEdit.vue
+<template>
+  <div>
+    <v-row>
+      <v-col cols="12">
+        <v-card class="mx-auto">
+          <v-row>
+            <v-col cols="4">
+              <v-img :src="book.image"></v-img>
+            </v-col>
+            <v-col cols="8">
+              <v-card-title>タイトル：{{ book.title }}</v-card-title>
+              読んだ日：
+              <v-menu
+                v-model="menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="date"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="date"
+                  @input="menu = false"
+                  locale="jp-ja"
+                  :day-format="(date) => new Date(date).getDate()"
+                ></v-date-picker>
+              </v-menu>
+              感想：
+              <v-textarea class="mx-2" v-model="book.momo">
+                {{ book.memo }}
+              </v-textarea>
+              <v-card-actions>
+                <v-btn color="secondary" to="/">一覧に戻る</v-btn>
+                <v-btn color="info" @click="editBookInfo">保存する</v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BookEdit',
+  props: {
+    books: Array,
+  },
+  data() {
+    return {
+      book: '',
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    // thisは使えない vmを使う
+    next((vm) => {
+      // `vm` を通じてコンポーネントインスタンスにアクセス
+      vm.$nextTick(() => {
+        vm.book = vm.books[vm.$route.params.id]
+        console.log(vm.book)
+      })
+    })
+  },
+}
+</script>
+
+<style></style>
+```
