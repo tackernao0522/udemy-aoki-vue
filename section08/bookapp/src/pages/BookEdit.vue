@@ -34,7 +34,7 @@
                 ></v-date-picker>
               </v-menu>
               感想：
-              <v-textarea class="mx-2" v-model="book.momo">{{
+              <v-textarea class="mx-2" v-model="book.memo">{{
                 book.memo
               }}</v-textarea>
               <v-card-actions>
