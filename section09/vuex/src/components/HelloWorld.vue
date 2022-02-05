@@ -12,13 +12,21 @@ export default {
     msg: String,
   },
   methods: {
+    // increment() {
+    //   this.$store.commit("increment"); // mutationsの中のincrementメソッドを呼び出す
+    // },
+    // addCount() {
+    //   this.$store.commit("addCount", {
+    //     value: 10,
+    //   }); // mutationsの中のaddCountメソッドを呼び出す
+    // },
     increment() {
-      this.$store.commit("increment"); // mutationsの中のincrementメソッドを呼び出す
+      this.$store.dispatch("incrementAction");
     },
     addCount() {
-      this.$store.commit("addCount", {
+      this.$store.dispatch("addCountAction", {
         value: 10,
-      }); // mutationsの中のaddCountメソッドを呼び出す
+      });
     },
   },
 };

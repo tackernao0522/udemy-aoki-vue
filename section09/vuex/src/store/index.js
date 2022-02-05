@@ -16,6 +16,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    // incrementAction(context) {
+    //   context.commit('increment')
+    // },
+    incrementAction({ commit }) { // この書き方の方がシンプル
+      commit('increment')
+    },
+    addCountAction({ commit }, payload) {
+      commit('addCount', payload)
+    },
   },
   getters: {
 

@@ -329,3 +329,89 @@ export default {
 }
 </script>
 ```
+
+## 120 actions->mutations->state
+
+同期・非同期で `actions/mutations` を使い分けると混乱の元<br>
+
+同期処理でも、`actions->mutations->state`の流れで書くようにする<br>
+
+- 参考: https://vuex.vuejs.org/ja/api/#actions <br>
+
+* `section09/vuex/src/store/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // 初期値
+    count: 0,
+  },
+  mutations: {
+    increment(state) {
+      state.count++
+    },
+    addCount(state, payload) {
+      // 第2引数はオブジェクト
+      state.count += payload.value
+    },
+  },
+  // 追記
+  actions: {
+    // incrementAction(context) {
+    //   context.commit('increment')
+    // },
+    incrementAction({ commit }) {
+      // この書き方の方がシンプル
+      commit('increment')
+    },
+    addCountAction({ commit }, payload) {
+      commit('addCount', payload)
+    },
+  },
+  getters: {},
+  modules: {},
+})
+```
+
+- `section09/vuex/src/components/HelloWorld.vue`を編集<br>
+
+```vue:HelloWorld.vue
+<template>
+  <div>
+    <button @click="increment">+</button>
+    <button @click="addCount">+10</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String,
+  },
+  methods: {
+    // increment() {
+    //   this.$store.commit("increment"); // mutationsの中のincrementメソッドを呼び出す
+    // },
+    // addCount() {
+    //   this.$store.commit("addCount", {
+    //     value: 10,
+    //   }); // mutationsの中のaddCountメソッドを呼び出す
+    // },
+    increment() {
+      this.$store.dispatch('incrementAction')
+    },
+    addCount() {
+      this.$store.dispatch('addCountAction', {
+        value: 10,
+      })
+    },
+  },
+}
+</script>
+```
