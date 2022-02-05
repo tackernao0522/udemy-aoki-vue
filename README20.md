@@ -361,3 +361,28 @@ export default {
 }
 </script>
 ```
+
+## 125 Vuex の使い所（モジュール結合度・Container/Presentational）
+
+### モジュール結合度
+
+数字が低い方が望ましい 数字が高いほど蜜結合<br>
+
+|     | モジュール結合度 | 説明                           | Vue の機能       |
+| --- | ---------------- | ------------------------------ | ---------------- |
+| 1   | データ結合       | 引数で単純なデータを渡す       | props            |
+| 2   | スタンプ結合     | 引数でオブジェクトを渡す       | props            |
+| 3   | 制御結合         | 引数でメソッド内の処理が変わる |                  |
+| 4   | 外部結合         | 単一のグローバルデータを参照   |                  |
+| 5   | 共通結合         | 複数のグローバルデータを参照   | state            |
+| 6   | 内容結合         | 他のオブジェクトの内部を参照   | getters, actions |
+
+- 参考: https://user-first.ikyu.co.jp/entry/design-of-vue-and-vuex <br>
+
+### Vuex やりとりと表示を別で
+
+ContainerComponent・・Vuex 使用<br>
+PresentationalComponent・・UI<br>
+ファイル名に Container とつけたら Vuex 使用<br>
+
+https://speakerdeck.com/simezi9/baseniokeru-vuekonponentoshe-ji-falsexian-zai <br>
