@@ -265,3 +265,36 @@ export default {
 }
 </script>
 ```
+
+## 119 mutations 補足 payload
+
+- 参考: https://vuex.vuejs.org/ja/guide/mutations.html#%E8%BF%BD%E5%8A%A0%E3%81%AE%E5%BC%95%E6%95%B0%E3%82%92%E6%B8%A1%E3%81%97%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E3%81%99%E3%82%8B <br>
+
+* `section09/vuex/src/store/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // 初期値
+    count: 0,
+  },
+  mutations: {
+    increment(state) {
+      state.count++
+    },
+    // 追記
+    addCount(state, payload) {
+      // 第2引数はオブジェクト
+      state.count += payload.value
+    },
+  },
+  actions: {},
+  getters: {},
+  modules: {},
+})
+```
