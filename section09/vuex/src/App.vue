@@ -5,6 +5,7 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view />
+    <button @click="setLogin">ログイン名を表示</button>
     {{ $store.state.count }}
     <br />
     <ul>
@@ -19,7 +20,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  methods: {
+    ...mapActions("auth", ["setLoginUser"]),
+    setLogin() {
+      this.setLoginUser({ name: "大谷" });
+    },
+  },
   computed: {
     visibleUsers() {
       return this.$store.getters.visibleUsers;
