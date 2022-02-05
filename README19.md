@@ -415,3 +415,211 @@ export default {
 }
 </script>
 ```
+
+## 121 getters
+
+### getters（プロパティスタイル）
+
+```
+visibleUsers: state => state.users.filter(user => user.isVisible)
+```
+
+第 2 引数で他の`getters`も呼び出せる<br>
+
+computed 同様　キャッシュが残る<br>
+computed 内で呼び出す<br>
+
+```
+store.getters.visibleUsers
+```
+
+### getters（メソッドスタイル）
+
+```
+getUserById: state => id => {
+  return state.users.find(user => user.id === id)
+}
+
+store.getters.getUserById(2)
+```
+
+メソッドスタイル（引数あり）の場合はキャッシュが残らない<br>
+
+- 参考: https://vuex.vuejs.org/ja/guide/getters.html <br>
+
+* `section09/vuex/src/store/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // 初期値
+    count: 0,
+    users: [
+      { id: 1, name: '大谷', isVisible: true },
+      { id: 2, name: 'ダルビッシュ', isVisible: false },
+      { id: 3, name: '錦織', isVisible: true },
+    ],
+  },
+  getters: {
+    // visibleUsers(state) {
+    //   return state.users.filter((user) => {
+    //     return user.isVisible // isVisibleがtrueの場合に表示
+    //   })
+    // }
+    visibleUsers: (state) => state.users.filter((user) => user.isVisible), // アロー関数での書き方
+  },
+  mutations: {
+    increment(state) {
+      state.count++
+    },
+    addCount(state, payload) {
+      // 第2引数はオブジェクト
+      state.count += payload.value
+    },
+  },
+  actions: {
+    // incrementAction(context) {
+    //   context.commit('increment')
+    // },
+    incrementAction({ commit }) {
+      // この書き方の方がシンプル
+      commit('increment')
+    },
+    addCountAction({ commit }, payload) {
+      commit('addCount', payload)
+    },
+  },
+  modules: {},
+})
+```
+
+- `section09/vuex/src/App.vue`を編集(プロパティスタイル)<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
+    {{ $store.state.count }}
+    <br />
+    <ul>
+      <li v-for="user in visibleUsers" :key="user.id">
+        {{ user.id }} : {{ user.name }} : {{ user.isVisible }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  computed: {
+    visibleUsers() {
+      return this.$store.getters.visibleUsers
+    },
+  },
+}
+</script>
+```
+
+- `section09/vuex/src/store/index.js`を編集(メソッドスタイル)<br>
+
+```js:index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // 初期値
+    count: 0,
+    users: [
+      { id: 1, name: '大谷', isVisible: true },
+      { id: 2, name: 'ダルビッシュ', isVisible: false },
+      { id: 3, name: '錦織', isVisible: true },
+    ],
+  },
+  getters: {
+    // visibleUsers(state) {
+    //   return state.users.filter((user) => {
+    //     return user.isVisible // isVisibleがtrueの場合に表示
+    //   })
+    // }
+    visibleUsers: (state) => state.users.filter((user) => user.isVisible), // アロー関数での書き方
+
+    // メソッドスタイル
+    getUserById: (state) => (id) => {
+      return state.users.find((user) => user.id === id)
+    },
+  },
+  mutations: {
+    increment(state) {
+      state.count++
+    },
+    addCount(state, payload) {
+      // 第2引数はオブジェクト
+      state.count += payload.value
+    },
+  },
+  actions: {
+    // incrementAction(context) {
+    //   context.commit('increment')
+    // },
+    incrementAction({ commit }) {
+      // この書き方の方がシンプル
+      commit('increment')
+    },
+    addCountAction({ commit }, payload) {
+      commit('addCount', payload)
+    },
+  },
+  modules: {},
+})
+```
+
+```section09/vuex/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
+    {{ $store.state.count }}
+    <br />
+    <ul>
+      <li v-for="user in visibleUsers" :key="user.id">
+        {{ user.id }} : {{ user.name }} : {{ user.isVisible }}
+      </li>
+    </ul>
+    <br />
+    {{ getUserById.name }}
+    {{ getUserById }}
+  </div>
+</template>
+
+<script>
+export default {
+  computed: {
+    visibleUsers() {
+      return this.$store.getters.visibleUsers
+    },
+    getUserById() {
+      return this.$store.getters.getUserById(2)
+    },
+  },
+}
+</script>
+```
