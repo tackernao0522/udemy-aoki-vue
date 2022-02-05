@@ -86,3 +86,79 @@
 ```browser:console
 {a: 1, b: 2, c: 3, test: ƒ}
 ```
+
+## 123 map ヘルパー(mapActions)
+
+### Map ヘルバー使うのは 2 つ
+
+| Vuex      | Map ヘルパー   |
+| --------- | -------------- |
+| state     | △ mapState     |
+| getters   | ○ mapGetters   |
+| mutations | △ mapMutations |
+| actions   | ○ mapActions   |
+
+Getters で State の値を監視産出するなら、mapState は不要<br>
+
+必ず Action を通るなら、mapMutations は不要<br>
+
+### Map ヘルパーの書き方
+
+```
+import { mapActions } from 'vuex'
+
+methods: {
+  ...mapActions(['incrementAction']) // 配列で複数書ける
+
+  incrementAction() { // このメソッドと同じになる
+    this.$store.dispatch('incrementAction')
+  }
+}
+```
+
+引数ありなら `this.incrementAction()`で<br>
+
+- `section09/vuex/src/components/HelloWorld.vue`を編集<br>
+
+```vue:HelloWorld.vue
+<template>
+  <div>
+    <!-- <button @click="increment">+</button> -->
+    <button @click="incrementAction">+</button>
+    <button @click="addCount">+10</button>
+  </div>
+</template>
+
+<script>
+import { mapActions } from 'vuex' // 追記
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String,
+  },
+  methods: {
+    // increment() {
+    //   this.$store.commit("increment"); // mutationsの中のincrementメソッドを呼び出す
+    // },
+    // addCountAction() {
+    //   this.$store.dispatch('addCountAction')
+    // },
+    ...mapActions(['incrementAction', 'addCountAction']), // 追記
+    // increment() {
+    //   this.$store.dispatch("incrementAction");
+    // },
+    // addCount() {
+    //   this.$store.dispatch("addCountAction", {
+    //     value: 10,
+    //   });
+    // },
+    // 編集
+    addCount() {
+      this.addCountAction({
+        value: 10,
+      })
+    },
+  },
+}
+</script>
+```
