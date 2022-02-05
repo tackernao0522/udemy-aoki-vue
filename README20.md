@@ -162,3 +162,202 @@ export default {
 }
 </script>
 ```
+
+## 124 モジュール分割と名前空間(namespace)
+
+### モジュールの読み込み方法
+
+- `例`<br>
+
+`store/index.js`<br>
+
+```js:index.js
+import auth from './auth'
+
+modules: {
+  auth
+}
+```
+
+`store/auth/index.js`<br>
+
+```js:index.js
+const state = {} // mutations, actions, gettersもconstで
+export default {
+  namespaced: true,
+  state, // mutations, actions, gettersも
+}
+```
+
+### モジュールの指定方法
+
+`...mapActions('モジュール名', ['アクション名'])`<br>
+
+他<br>
+`rooteState`・・ルートの state<br>
+
+モジュール間のやりとりは基本 NG<br>
+できるだけ名前空間内で完結させる<br>
+
+### ハンズオン
+
+- `section09/vuex/src/store/auth`ディレクトリを作成<br>
+
+* `section09/vuex/src/store/auth/index.js`ファイルを作成<br>
+
+```js:index.js
+const state = {}
+
+const mutations = {}
+
+const actions = {}
+
+const getters = {}
+
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions,
+  getters,
+}
+```
+
+- `section09/vuex/src/store/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import auth from './auth' // 追記
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // 初期値
+    count: 0,
+    users: [
+      { id: 1, name: '大谷', isVisible: true },
+      { id: 2, name: 'ダルビッシュ', isVisible: false },
+      { id: 3, name: '錦織', isVisible: true },
+    ],
+  },
+  getters: {
+    // visibleUsers(state) {
+    //   return state.users.filter((user) => {
+    //     return user.isVisible // isVisibleがtrueの場合に表示
+    //   })
+    // }
+    visibleUsers: (state) => state.users.filter((user) => user.isVisible), // アロー関数での書き方
+
+    getUserById: (state) => (id) => {
+      return state.users.find((user) => user.id === id)
+    },
+  },
+  mutations: {
+    increment(state) {
+      state.count++
+    },
+    addCount(state, payload) {
+      // 第2引数はオブジェクト
+      state.count += payload.value
+    },
+  },
+  actions: {
+    // incrementAction(context) {
+    //   context.commit('increment')
+    // },
+    incrementAction({ commit }) {
+      // この書き方の方がシンプル
+      commit('increment')
+    },
+    addCountAction({ commit }, payload) {
+      commit('addCount', payload)
+    },
+  },
+  // 追記
+  modules: {
+    auth,
+  },
+})
+```
+
+- `section09/vuex/src/store/auth/index.js`を編集<br>
+
+```js:index.js
+const state = {
+  loginUserName: '',
+}
+
+const mutations = {
+  setLoginUser(state, user) {
+    state.loginUserName = user.name
+  },
+}
+
+const actions = {
+  setLoginUser({ commit }, user) {
+    commit('setLoginUser', user)
+  },
+}
+
+const getters = {}
+
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions,
+  getters,
+}
+```
+
+- `section09/vuex/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
+    // 追記
+    <button @click="setLogin">ログイン名を表示</button>
+    {{ $store.state.count }}
+    <br />
+    <ul>
+      <li v-for="user in visibleUsers" :key="user.id">
+        {{ user.id }} : {{ user.name }} : {{ user.isVisible }}
+      </li>
+    </ul>
+    <br />
+    {{ getUserById.name }}
+    {{ getUserById }}
+  </div>
+</template>
+
+<script>
+// 追記
+import { mapActions } from 'vuex'
+
+export default {
+  // 追記
+  methods: {
+    ...mapActions('auth', ['setLoginUser']),
+    setLogin() {
+      this.setLoginUser({ name: '大谷' })
+    },
+  },
+  computed: {
+    visibleUsers() {
+      return this.$store.getters.visibleUsers
+    },
+    getUserById() {
+      return this.$store.getters.getUserById(2)
+    },
+  },
+}
+</script>
+```
