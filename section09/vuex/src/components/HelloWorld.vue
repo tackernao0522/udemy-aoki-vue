@@ -1,6 +1,7 @@
 <template>
   <div>
-    <button @click="addCount">+</button>
+    <button @click="increment">+</button>
+    <button @click="addCount">+10</button>
   </div>
 </template>
 
@@ -11,9 +12,14 @@ export default {
     msg: String,
   },
   methods: {
+    increment() {
+      this.$store.commit("increment"); // mutationsの中のincrementメソッドを呼び出す
+    },
     addCount() {
-      this.$store.commit('increment') // mutationsの中のincrementメソッドを呼び出す
-    }
-  }
+      this.$store.commit("addCount", {
+        value: 10,
+      }); // mutationsの中のaddCountメソッドを呼び出す
+    },
+  },
 };
 </script>
