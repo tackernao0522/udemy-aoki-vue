@@ -91,3 +91,177 @@ export default new Vuex.Store({
   modules: {},
 })
 ```
+
+## 118 Vuex state と mutations
+
+### Vuex 追記箇所
+
+```js:src/main.js
+import store from './store'
+new Vue({ store })
+```
+
+`src/store/index.js`・・Vuex 記述ファイル<br>
+
+### Vuex 使い方
+
+テンプレート側<br>
+`$store.state.xxx`<br>
+スクリプト側<br>
+`this.$store.state.xxx, this.$store.commit('')`<br>
+
+map ヘルパー<br>
+`mapState`,`mapActions` など<br>
+
+### Vuex 使い方 ・ 引数
+
+| Vuex      | 呼び出し                                    | 引数                                             |
+| --------- | ------------------------------------------- | ------------------------------------------------ |
+| state     | \$store.state.xxx                           |                                                  |
+| getters   | $store.getters.xxx<br>$store.getters('xxx') | state, [getters]                                 |
+| mutations | \$store.commit('xxx')                       | state, {値(payload)}                             |
+| actions   | \$store.dispatch('xxx')                     | context, {値(payload)}<br>※commit state など含む |
+
+### ハンズオン
+
+- `section09/vuex/src/store/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // 初期値
+    count: 0,
+  },
+  mutations: {},
+  actions: {},
+  getters: {},
+  modules: {},
+})
+```
+
+- `section09/vuex/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
+  </div>
+</template>
+```
+
+- `section09/vuex/src/views/Home.vue`を編集<br>
+
+```vue:Home.vue
+<template>
+  <div class="home">
+    // 1行削除
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import HelloWorld from '@/components/HelloWorld.vue'
+
+export default {
+  name: 'Home',
+  components: {
+    HelloWorld,
+  },
+}
+</script>
+```
+
+- `section09/vuex/src/components/HelloWorld.vue`を編集<br>
+
+```vue:HelloWorld.vue
+<template>
+  <div></div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String,
+  },
+}
+</script>
+```
+
+- `section09/vuex/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
+    {{ $store.state.count }}
+  </div>
+</template>
+```
+
+ブラウザに初期値の 0 と表示される<br>
+
+- `section09/vuex/src/store/index.js`を編集<br>
+
+```js:index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // 初期値
+    count: 0,
+  },
+  mutations: {
+    // 追記
+    increment(state) {
+      state.count++
+    },
+  },
+  actions: {},
+  getters: {},
+  modules: {},
+})
+```
+
+- `section09/vuex/src/components/HelloWorld.vue`を編集<br>
+
+```vue:HelloWorld.vue
+<template>
+  <div>
+    <button @click="addCount">+</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String,
+  },
+  methods: {
+    addCount() {
+      this.$store.commit('increment') // mutationsの中のincrementメソッドを呼び出す
+    },
+  },
+}
+</script>
+```
