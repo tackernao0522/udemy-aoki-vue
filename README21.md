@@ -155,3 +155,50 @@ Vuex・・ver4.x<br>
   </body>
 </html>
 ```
+
+## 130 Vue.js3 のインストール(NPM)
+
+- `section10`ディレクトリに移動<br>
+
+* `$ vue --version`を実行<br>
+
+```
+@vue/cli 4.5.15 // 3以降であればOK
+```
+
+- `$ vue create vue3-test`を実行<br>
+
+* `Manually select features`を選択して`Enter`<br>
+
+- 下記を設定して`Enter`<br>
+
+```
+
+Vue CLI v4.5.15
+? Please pick a preset: Manually select features
+? Check the features needed for your project:
+ ◉ Choose Vue version
+ ◉ Babel
+ ◯ TypeScript
+ ◯ Progressive Web App (PWA) Support
+ ◉ Router
+❯◉ Vuex
+ ◯ CSS Pre-processors
+ ◉ Linter / Formatter
+ ◯ Unit Testing
+ ◯ E2E Testing
+```
+
+- `3.x`を選択して`Enter`<br>
+
+* `Y`を入力して`Enter`<br>
+
+- `❯ ESLint with error prevention only`を選択して`Enter`<br>
+
+- `❯◉ Lint on save`を選択して`Enter`<br>
+
+* `❯ In dedicated config files`を選択して`Enter`<br>
+
+- `N`を選択して`Enter`<br>
+
+* `vue3-test`ディレクトリに移動<br>
