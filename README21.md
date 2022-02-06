@@ -210,3 +210,195 @@ Vue CLI v4.5.15
 * 参考: https://v3.ja.vuejs.org/api/application-api.html#component <br>
 
 - 参考: https://v3.ja.vuejs.org/api/application-api.html#use <br>
+
+## 132 Provide/Inject 長距離 Props
+
+### Provide(提供)/Inject(注入)
+
+- 参考: https://v3.ja.vuejs.org/guide/component-provide-inject.html#%E3%83%AA%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%95%E3%82%99%E3%81%A8%E9%80%A3%E6%90%BA%E3%81%99%E3%82%8B <br>
+
+親->孫へデータを渡せる<br>
+長距離 props<br>
+
+```
+親 App.vue
+provide() {
+  return {
+    userName: '親で設定した値'
+  }
+}
+子 Children.vue
+孫 GrandChildren.vue
+inject:['userName']
+```
+
+- `section10/vue3-test/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="nav">
+    <router-link to="/">Home</router-link>
+    |
+    <router-link to="/about">About</router-link>
+    |
+    <router-link to="/children">Children</router-link>
+  </div>
+  <router-view />
+</template>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
+```
+
+- `section10/vue3-test/src/router/index.js`を編集<br>
+
+```js:index.js
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
+import Children from '@/views/Children'
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  // 追記
+  {
+    path: '/children',
+    name: 'Children',
+    component: Children,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+]
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+})
+
+export default router
+```
+
+- `section10/vue3-test/src/views/Children.vue`ファイルを作成<br>
+
+```vue:GrandChildren.vue
+<template>
+  <div>Children (子)</div>
+  <Grand-Children />
+</template>
+
+<script>
+import GrandChildren from '@/components/GrandChildren'
+
+export default {
+  components: {
+    GrandChildren,
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `section10/vue3-test/src/components/GrandChildren.vue`を作成<br>
+
+* `section10/vue3-test/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <div id="nav">
+    <router-link to="/">Home</router-link>
+    |
+    <router-link to="/about">About</router-link>
+    |
+    <router-link to="/children">Children</router-link>
+  </div>
+  <router-view />
+</template>
+
+// 追記
+<script>
+export default {
+  data() {
+    return {}
+  },
+  provide() {
+    return {
+      userName: '親で設定した値',
+    }
+  },
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
+```
+
+- `section10/vue3-test/src/components/GrandChild.vue`を編集<br>
+
+```vue:GrandChild.vue
+<template>
+  <div>GrandChildren (孫)</div>
+  // 追記
+  <div>{{ userName }}</div>
+</template>
+
+<script>
+export default {
+  // 追記
+  data() {},
+  inject: ['userName'],
+}
+</script>
+
+<style></style>
+```
