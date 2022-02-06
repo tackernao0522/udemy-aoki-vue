@@ -202,3 +202,11 @@ Vue CLI v4.5.15
 - `N`を選択して`Enter`<br>
 
 * `vue3-test`ディレクトリに移動<br>
+
+## 131 エントリーポイントの確認
+
+- 参考: https://v3.ja.vuejs.org/api/global-api.html <br>
+
+* 参考: https://v3.ja.vuejs.org/api/application-api.html#component <br>
+
+- 参考: https://v3.ja.vuejs.org/api/application-api.html#use <br>
