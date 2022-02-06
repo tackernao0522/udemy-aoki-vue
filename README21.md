@@ -20,3 +20,42 @@ Vue3 API<br>
 https://v3.ja.vuejs.org/api/ <br>
 
 使い方参考: https://v3.ja.vuejs.org/guide/introduction.html#%E3%81%AF%E3%81%97%E3%82%99%E3%82%81%E3%81%AB-2 <br>
+
+## 127 Vue.js3 のインストール(CDN)
+
+- 参考: https://v3.ja.vuejs.org/guide/installation.html#%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E3%83%8E%E3%83%BC%E3%83%88 <br>
+
+* 参考: https://v3.ja.vuejs.org/guide/introduction.html#%E3%81%AF%E3%81%97%E3%82%99%E3%82%81%E3%81%AB-2 (宣言的レンダリング)<br>
+
+- `section10`ディレクトリを作成<br>
+
+* `section10/cdn.html`ファイルを作成<br>
+
+```html:cdn.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue3 Install CDN</title>
+  </head>
+
+  <body>
+    <div id="counter">
+      Counter: {{ counter }}
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      let app = Vue.createApp({
+        data() {
+          return {
+            counter: 0,
+          }
+        },
+      }).mount('#counter')
+    </script>
+  </body>
+</html>
+```
