@@ -73,3 +73,85 @@ VueCLI・・ver4.x<br>
 VueRouter・・ver4.x<br>
 
 Vuex・・ver4.x<br>
+
+## 129 Vue.js2 と同じコードの確認 OptionsAPI
+
+- `section10/cdn.html`を編集<br>
+
+```html:cdn.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue3 Install CDN</title>
+  </head>
+
+  <body>
+    <div id="counter">
+      Counter: {{ counter }} {{ totalPriceMethods() }} {{ totalPriceMethods() }}
+      {{ totalPrice }} {{ totalPrice }}
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      let app = Vue.createApp({
+        data() {
+          return {
+            counter: 0,
+            price: 1,
+            number: 1,
+            reactiveTest: {
+              name: 'テスト',
+            },
+            books: [
+              {
+                id: 1,
+                title: 'タイトル1',
+                author: '著者名1',
+                url: 'https://google.com',
+              },
+              {
+                id: 2,
+                title: 'タイトル2',
+                author: '著者名2',
+                url: 'https://google.com',
+              },
+              {
+                id: 3,
+                title: 'タイトル3',
+                author: '著者名3',
+                url: 'https://google.com',
+              },
+            ],
+          }
+        },
+        methods: {
+          totalPriceMethods() {
+            console.log('methodsです')
+            return this.number * this.price
+          },
+        },
+        computed: {
+          // totalPrice(){
+          //   return this.number * this.price
+          // }
+          totalPrice: (app) => app.number * app.price,
+        },
+        watch: {
+          books: {
+            handler() {
+              console.log('変更されました')
+            },
+            deep: true,
+          },
+        },
+        created() {
+          console.log('createdです')
+        },
+      }).mount('#counter')
+    </script>
+  </body>
+</html>
+```
