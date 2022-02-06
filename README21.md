@@ -59,3 +59,17 @@ https://v3.ja.vuejs.org/api/ <br>
   </body>
 </html>
 ```
+
+## 128 Vue.js devTools (ver6.x)
+
+### Vue3 対応バージョン
+
+GoogleChrome の Vue.js devtools<br>
+Vue2・・vuer5.x <br>
+Vue3・・ver6.x (beta)<br>
+
+VueCLI・・ver4.x<br>
+
+VueRouter・・ver4.x<br>
+
+Vuex・・ver4.x<br>
