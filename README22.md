@@ -214,3 +214,63 @@ export default {
 
 <style></style>
 ```
+
+## 136 setup()の戻り値
+
+```
+<template>
+  {{ name }}
+</template>
+
+<script>
+export default {
+  setup() {
+    let name = '大谷',
+
+    return { name } // returnに書いた変数・関数をtemplate内で扱える
+  }
+}
+</script>
+```
+
+- `section10/vue3-test/src/views/CompositionTest.vue`を編集<br>
+
+```vue:CompostionTest.vue
+<template>
+  <div>
+    CompositionTest
+    <p>{{ name }}</p>
+    <p>{{ age }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  setup() {
+    let name = '大谷'
+    const age = 30
+    console.log('setup')
+    console.log(this) // undefinedになる
+    return {
+      name, // keyとvalueが同じであれば一つでOK
+      age,
+    }
+  },
+  data() {
+    return {
+      number: 1,
+      sports: 'サッカー',
+    }
+  },
+  created() {
+    console.log('created')
+    console.log(this) // 拾える
+  },
+  mounted() {
+    console.log('mounted')
+  },
+}
+</script>
+
+<style></style>
+```
