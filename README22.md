@@ -169,3 +169,48 @@ export default {
 
 <style></style>
 ```
+
+## 135 setup()で this が使えない件
+
+### Setup 関数内の this は不可
+
+```
+<script>
+export default {
+  setup() {
+    console.log(this)
+  }
+}
+</script>
+```
+
+コンソール上に `undefined`と表示される<br>
+Setup 関数内は this を使わない<br>
+->アロー関数が使いやすい<br>
+
+- `section10/vue3-test/src/views/CompositionTest.vue`を編集<br>
+
+```vue:CompositionTest.vue
+<template>
+  <div>CompositionTest</div>
+</template>
+
+<script>
+export default {
+  data() {},
+  setup() {
+    console.log('setup')
+    console.log(this) // undefinedになる
+  },
+  created() {
+    console.log('created')
+    console.log(this) // 拾える
+  },
+  mounted() {
+    console.log('mounted')
+  },
+}
+</script>
+
+<style></style>
+```
