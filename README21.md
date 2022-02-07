@@ -402,3 +402,133 @@ export default {
 
 <style></style>
 ```
+
+## 133 Teleport
+
+親子関係を飛び越えて表示できる機能<br>
+
+使い方・・モーダルウィンドウ<br>
+
+- `section10/vue3-test/src/router/index.js`を編集<br>
+
+```js:index.js
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
+import Children from '@/views/Children'
+import TeleportTest from '@/views/TeleportTest'
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/children',
+    name: 'Children',
+    component: Children,
+  },
+  {
+    path: '/teleport-test',
+    name: 'TeleportTest',
+    component: TeleportTest,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+]
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+})
+
+export default router
+```
+
+- `section10/vue3-test/src/views/TeleportTest.vue`ファイルを作成<br>
+
+```vue:TeleportTest.vue
+<template>
+  <div>
+    Teleport
+    <ModalButton />
+  </div>
+</template>
+
+<script>
+import ModalButton from '@/components/ModalButton'
+
+export default {
+  components: {
+    ModalButton,
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `section10/vue3-test/src/components/ModalButton.vue`ファイルを作成<br>
+
+```vue:ModalButton.vue
+<template>
+  <div class="relative">
+    <button @click="modalOpen = true">モーダル</button>
+    <teleport to="body"> // public/index.htmlのbodyタグに紐づいている
+      <div v-if="modalOpen" class="modal">
+        <div>
+          <p>モーダルウィンドウ</p>
+          <button @click="modalOpen = false">閉じる</button>
+        </div>
+      </div>
+    </teleport>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      modalOpen: false,
+    }
+  },
+}
+</script>
+
+<style scoped>
+.relative {
+  position: relative;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 300px;
+  height: 300px;
+  padding: 5px;
+}
+</style>
+```
