@@ -274,3 +274,64 @@ export default {
 
 <style></style>
 ```
+
+## 137 ref()
+
+### リアクティブ比較表
+
+|                     | ref(reference 参照)                                  | reactive                                                     |
+| ------------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
+| 対象                | プリミティブな値<br>(文字、数値など)                 | オブジェクト(data に近い)                                    |
+| 設定                | const nameRef = ref('錦織')<br>※オブジェクトでラップ | const book = reactive({ title: 'タイトル', auther: '大谷' }) |
+| template 内で指定   | {{ nameRef }}                                        | {{ book.title }}                                             |
+| Script 内で扱う場合 | nameRef.value                                        | book.title                                                   |
+| return 時           | return { nameRef }                                   | return { ・・・toRefs(book) }                                |
+
+- `section10/vue3-test/src/views/CompositionTest.vue`を編集<br>
+
+```vue:CompositionTest.vue
+<template>
+  <div>
+    CompositionTest
+    <p>{{ name }}</p>
+    <p>{{ age }}</p>
+    <p>{{ nameRef }}</p>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue'
+export default {
+  setup() {
+    let name = '大谷'
+    const age = 30
+    const nameRef = ref('錦織')
+
+    console.log('setup')
+    console.log(this) // undefinedになる
+    console.log(nameRef)
+    console.log(nameRef.value)
+    return {
+      name, // keyとvalueが同じであれば一つでOK
+      age,
+      nameRef,
+    }
+  },
+  data() {
+    return {
+      number: 1,
+      sports: 'サッカー',
+    }
+  },
+  created() {
+    console.log('created')
+    console.log(this) // 拾える
+  },
+  mounted() {
+    console.log('mounted')
+  },
+}
+</script>
+
+<style></style>
+```
