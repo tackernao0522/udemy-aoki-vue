@@ -109,3 +109,31 @@ export default {
 
 <style></style>
 ```
+
+## 142 watch()
+
+### watch 比較表
+
+|                      | watch                                                                | watchEffect                      |
+| -------------------- | -------------------------------------------------------------------- | -------------------------------- |
+| 監視対象             | 第 1 引数<br>(引数内に配列で複数指定可能)<br>watch(price, () => {}) | 関数内のリアクティブオブジェクト |
+| 取得できる値         | 第 2 引数内に<br>(newValue, oldValue)<br>などと指定                  | なし                             |
+| 初回実行のタイミング | 監視対象オブジェクトが変更されたタイミング<br>(Lazy Load)            | 定義時に実行                     |
+| 使い勝手             | OptionsAPI と同様<br>少し複雑                                        | シンプル                         |
+
+```vue:sample.vue
+<p>watch: <input v-model="search">{{ search }}</p>
+
+<script>
+import { watch } from 'vue'
+
+const search = ref('')
+watch(search, (newValue, prevValue) => {
+  console.log(`watch: ${search.value}`)
+  console.log(`new: ${newValue}`)
+  console.log(`prev: ${prevValue}`)
+})
+
+return { search }
+</script>
+```
