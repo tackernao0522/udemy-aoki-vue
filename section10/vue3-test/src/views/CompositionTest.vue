@@ -9,11 +9,12 @@
     <p>reactiveToRefs: {{ titleRef }}</p>
     <p>reactiveToRefs: {{ authorRef[1] }}</p>
     <button @click="btnClick">クリック</button>
+    <p>computed: {{ totalPrice }}</p>
   </div>
 </template>
 
 <script>
-import { ref, reactive, toRefs } from "vue";
+import { ref, reactive, toRefs, computed } from "vue";
 
 export default {
   setup() {
@@ -31,10 +32,19 @@ export default {
       authorRef: ["大谷2", "伊藤2"],
     });
 
+    const item = reactive({
+      price: 100,
+      number: 1,
+    });
+
+    const totalPrice = computed(() => {
+      return item.price * item.number;
+    });
+
     const btnClick = (e) => {
       console.log("クリック");
       console.log(book.title);
-      console.log(e)
+      console.log(e);
     };
 
     console.log("setup");
@@ -48,6 +58,8 @@ export default {
       book,
       ...toRefs(booktoRefs),
       btnClick,
+      item,
+      totalPrice,
     };
   },
   data() {
