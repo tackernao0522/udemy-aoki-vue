@@ -5,7 +5,11 @@
 </template>
 
 <script>
-import { useRouter, useRoute } from "vue-router";
+import {
+  useRouter,
+  useRoute,
+  onBeforeRouteLeave,
+} from "vue-router";
 
 export default {
   setup() {
@@ -19,6 +23,11 @@ export default {
     const checkRoutePath = () => {
       console.log(route.path);
     };
+
+    onBeforeRouteLeave((to, from) => {
+      console.log(`to: ${to}`);
+      console.log(`from: ${from}`);
+    });
 
     return {
       goHome,
