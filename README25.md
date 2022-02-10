@@ -618,7 +618,7 @@ const router = createRouter({
 export default router
 ```
 
-- `section10/vue3-test/src/views/VueTest.vue`ファイルを作成<br>
+- `section10/vue3-test/src/views/VuexTest.vue`ファイルを作成<br>
 
 ```vue:VueTest.vue
 <template>
@@ -650,3 +650,29 @@ export default createStore({
   modules: {},
 })
 ```
+
+## 153 setup 内で vuex その 2
+
+Vuex も合成関数が用意されている<br>
+https://next.vuex.vuejs.org/ <br>
+
+```
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+setup() {
+  const store = useStore()
+  const count = computed(() => {
+    return store.state.count
+  })
+
+  const increment = () => {
+    store.commit('increment')
+
+  }
+
+  return { count, increment }
+}
+```
+
+- 参考: https://github.com/vuejs/vuex/tree/main/examples/composition <br>
