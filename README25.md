@@ -355,3 +355,67 @@ export default {
 
 <style></style>
 ```
+
+## 151 setup 内でナビゲーションガード
+
+### ナビゲーションガードも読み込む
+
+- 参考: https://router.vuejs.org/guide/advanced/composition-api.html#navigation-guards <br>
+
+```
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+
+setup() {
+  onBeforeRouteLeave((to, from) => {
+    console.log(`to: ${to}`)
+    console.log(`from: ${from}`)
+  })
+
+  onBeforeRouteUpdate((to, from) => {
+
+  })
+
+  return {}
+}
+```
+
+- `section10/vue3-test/src/views/RouterTest.vue`を編集<br>
+
+```vue:RouterTest.vue
+<template>
+  <div>RouterTest</div>
+  <button @click="goHome">Homeに戻る</button>
+  <button @click="checkRoutePath">ルート情報</button>
+</template>
+
+<script>
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
+
+export default {
+  setup() {
+    const router = useRouter()
+    const route = useRoute()
+
+    const goHome = () => {
+      router.push('/')
+    }
+
+    const checkRoutePath = () => {
+      console.log(route.path)
+    }
+
+    onBeforeRouteLeave((to, from) => {
+      console.log(`to: ${to}`)
+      console.log(`from: ${from}`)
+    })
+
+    return {
+      goHome,
+      checkRoutePath,
+    }
+  },
+}
+</script>
+
+<style></style>
+```
