@@ -632,7 +632,7 @@ export default {}
 <style></style>
 ```
 
-- 'section10/vue3-test/src/store/index.js'を編集<br>
+- `section10/vue3-test/src/store/index.js`を編集<br>
 
 ```js:index.js
 import { createStore } from 'vuex'
