@@ -1,4 +1,4 @@
-## 91 動的パラメータ+props 補足
+## 92 動的パラメータ+props 補足
 
 - `section07/vuerouter/src/components/BookDetail.vue`を編集<br>
 
@@ -128,7 +128,7 @@ export default {
 <style></style>
 ```
 
-## 92 動的パラメータの補足 watch
+## 93 動的パラメータの補足 watch
 
 - `section07/vuerouter/src/App.vue`を編集<br>
 
@@ -300,7 +300,7 @@ export default {
 <style></style>
 ```
 
-## 93 リダイレクトと 404 ページ
+## 94 リダイレクトと 404 ページ
 
 - `section07/vuerouter/src/router/index.js`を編集<br>
 
@@ -453,7 +453,7 @@ export default {
 <style></style>
 ```
 
-## 94 ネストされたルート
+## 95 ネストされたルート
 
 ### ネストされた route-view
 
