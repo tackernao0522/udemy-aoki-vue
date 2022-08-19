@@ -354,3 +354,109 @@ const decrement = () => {
   <button @click="decrement">Decrement</button>
 </template>
 ```
+
+## 160. event upを試してみる
+
+#### event up(子コンポーネントから親に渡す)
+
+difineEmitsを使う<br>
+
+親コンポーネント<br>
+
+```vue:Parent.vue
+<ScriptSetupTest @custom-event="parentMoethod" />
+
+<script>
+  //
+  methods: {
+    parentMoethod(e) {
+      console.log('Emit実行', e)
+    }
+  }
+  //
+</script>
+```
+
+子コンポーネント<br>
+
+```vue:Child.vue
+<script setup>
+  const emitTest = defineEmits(['cusutom-event'])
+
+  <button @click="emitTest('custom-event', '子からの値')">Emitテスト</button>
+</script>
+```
+
++ `section11/script/setup_test/src/components/ScriptSetupTest.vue`を編集<br>
+
+```vue:ScriptSetupTest.vue
+<script setup>
+import { ref } from "vue";
+
+const props = defineProps({
+  title: String,
+});
+
+const emitTest = defineEmits(["custom-event"]); // 追加
+
+const count = ref(0);
+
+const increment = () => {
+  count.value++;
+};
+
+const decrement = () => {
+  count.value--;
+};
+</script>
+
+<template>
+  <span>{{ props.title }}</span>
+  <button @click="emitTest('custom-event', '子からの値')">Emit実行</button> <!-- 追加 -->
+  <h1>{{ count }}</h1>
+  <button @click="increment">Increment</button>
+  <button @click="decrement">Decrement</button>
+</template>
+```
+
++ `section11/script/setup_test/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <ScriptSetupTest
+    title="ここにタイトルが入ります"
+    @custom-event="parentMethod"
+  />
+  <HelloWorld msg="Welcome to Your Vue.js App" />
+</template>
+
+<script>
+import HelloWorld from "./components/HelloWorld.vue";
+import ScriptSetupTest from "./components/ScriptSetupTest.vue";
+
+export default {
+  name: "App",
+  components: {
+    HelloWorld,
+    ScriptSetupTest,
+  },
+  methods: {
+    parentMethod(e) {
+      console.log("Emit実行されました", e);
+    },
+  },
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
