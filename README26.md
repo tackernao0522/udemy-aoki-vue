@@ -203,3 +203,154 @@ export default {
 }
 </style>
 ```
+
+## 159. props down
+
+#### prosps down, event up
+
+difinePropsを使う<br>
+
+```vue:sample:vue
+<script setup>
+  const props = defineProps({
+    title: String
+  })
+</script>
+```
+
+※ ESLintにひっかかるので追加対応<br>
+
++ `.eslintrc.js`<br>
+
+```js:.eslintrc.js
+{
+  "globals": {
+    "defineProps": "readonly",
+    "defineEmits": "readonly",
+    "defineExpose": "readonly",
+    "sithDefaults": "readonly",
+  }
+}
+```
+
++ `section11/script/setup_test/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <ScriptSetupTest title="ここにタイトルが入ります" /> // 編集
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+import ScriptSetupTest from './components/ScriptSetupTest.vue';
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld,
+    ScriptSetupTest
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
+
++ `section11/script/setup_test/src/components/ScriptSetupTest.vue`を編集<br>
+
+```vue:ScriptSetupTest.vue
+<script setup>
+import { ref } from "vue";
+
+// 追加
+const props = defineProps({
+  title: String
+})
+
+const count = ref(0);
+
+const increment = () => {
+  count.value++;
+};
+
+const decrement = () => {
+  count.value--;
+};
+</script>
+
+<template>
+  <h1>{{ count }}</h1>
+  <button @click="increment">Increment</button>
+  <button @click="decrement">Decrement</button>
+</template>
+```
+
++ `section11/script_setup_test/.eslintrc.js`を編集<br>
+
+```js:.eslintrc.js
+module.exports = {
+  root: true,
+  env: {
+    node: true
+  },
+  // 追加
+  "globals": {
+    "defineProps": "readonly",
+    "defineEmits": "readonly",
+    "defineExpose": "readonly",
+    "sithDefaults": "readonly",
+  },
+  // ここまで
+  'extends': [
+    'plugin:vue/vue3-essential',
+    'eslint:recommended'
+  ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+  }
+}
+```
+
++ `section11/script/setup_test/src/components/ScriptSetupTest.vue`を編集<br>
+
+```vue:ScriptSetupTest.vue
+<script setup>
+import { ref } from "vue";
+
+const props = defineProps({
+  title: String,
+});
+
+const count = ref(0);
+
+const increment = () => {
+  count.value++;
+};
+
+const decrement = () => {
+  count.value--;
+};
+</script>
+
+<template>
+  <span>{{ props.title }}</span>
+  <h1>{{ count }}</h1>
+  <button @click="increment">Increment</button>
+  <button @click="decrement">Decrement</button>
+</template>
+```
