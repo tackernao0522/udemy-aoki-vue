@@ -133,3 +133,73 @@ https://v3.js.vuejs.org/api/sfc-script-setup.html <br>
 + `$ npm run serve`を実行<br>
 
 + http://localhost:8080/ にアクセスする<br>
+
+## 158. script setupを実際に試してみる
+
+#### VSCode拡張機能変更
+
+script setup構文にはVetur非対応
+
+代わりにVolarが推奨されている
+
++ VSCodeに拡張機能 `Volar` をインストールする<br>
+
++ `$ touch section11/script/setup_test/src/components/ScriptSetupTest.vue`を実行<br>
+
++ `section11/script/setup_test/src/components/ScriptSetupTest.vue`を編集<br>
+
+```vue:ScriptSetupTest.vue
+<script setup>
+import { ref } from "vue";
+
+const count = ref(0);
+
+const increment = () => {
+  count.value++;
+};
+
+const decrement = () => {
+  count.value--;
+};
+</script>
+
+<template>
+  <h1>{{ count }}</h1>
+  <button @click="increment">Increment</button>
+  <button @click="decrement">Decrement</button>
+</template>
+```
+
++ `section11/script/setup_test/src/App.vue`を編集<br>
+
+```vue:App.vue
+<template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <ScriptSetupTest />
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+import ScriptSetupTest from './components/ScriptSetupTest.vue';
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld,
+    ScriptSetupTest
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
