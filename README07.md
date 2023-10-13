@@ -156,84 +156,95 @@
 
 ```html:index.html
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo List</title>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
     <style>
-      [v-cloak] {
-        display: none;
-      }
+        [v-cloak] {
+            display: none;
+        }
 
-      ul {
-        list-style: none;
-      }
+        ul {
+            list-style: none;
+        }
 
-      .done {
-        text-decoration: line-through;
-        /* 横線が引かれる */
-      }
+        .done {
+            text-decoration: line-through;
+            /* 横線が引かれる */
+        }
     </style>
-  </head>
 
-  <body>
-    <div id="app">
-      <input type="text" v-model="newItem" />
-      <button @click.prevent="addItem">追加</button>
-      <input v-model="query" />
-      検索
+<body>
 
-      <ul v-cloak>
-        <!-- 削除ボタンのindexが必要なのでindexもいれる -->
-        <li v-for="(todo, index) in filteredList">
-          <input type="checkbox" v-model="todo.isDone" />
-          <!-- チェックを入れるとboolean値が反転する -->
-          <span :class="{done: todo.isDone}">{{todo.item}}</span>
-          <!-- isDoneがtrueだったらdoneのクラス(横線)を付ける -->
-          <button @click="deleteItem(index)">削除</button>
+</body>
+
+</html>
+<div id="app" v-cloak>
+    <input type="text" v-model="newItem">
+    <button @click.prevent="addItem">追加</button>
+    <input type="text" v-model="query">検索
+
+    <ul v-cloak>
+        <li v-for="todo in filteredList">
+            <input type="checkbox" v-model="todo.isDone">
+            <span :class="{ done: todo.isDone}"> {{ todo.item }} </span>
+
+            <!-- //indexから新たに設定したkeyプロパティに変更しました。 -->
+            <button @click.prevent="deleteItem(todo.key)">削除</button>
         </li>
-      </ul>
-    </div>
-
-    <script>
-      let app = new Vue({
+    </ul>
+</div>
+<script>
+    let app = new Vue({
         el: '#app',
         data() {
-          return {
-            newItem: '',
-            todos: [],
-            query: '',
-          }
+            return {
+                newItem: '',
+                todos: [],
+                query: '',
+
+                //keyを振り分けるためのカウンター
+                next: 0,
+            }
         },
         methods: {
-          addItem() {
-            if (!this.newItem) return // newItemが空だとreturnで実行しない
-            const todo = {
-              item: this.newItem,
-              isDone: false,
+            addItem() {
+                if (!this.newItem) return
+                const todo = {
+                    item: this.newItem,
+                    isDone: false,
+
+                    //上のカウンターを用いた自動振り分け
+                    key: this.next
+                }
+                this.todos.push(todo)
+                this.newItem = ''
+
+                //次のkeyの為に1を足す。
+                this.next++
+            },
+
+            //(削除ボタンの引数)と、(key)が一致するオブジェクトを探して削除。
+            deleteItem(key) {
+                //someメソッド内ではthisが使えないのかもしれません。ここを書き足さないとエラーがでて削除されません。
+                let that = this
+                that.todos.some(function (todo, i) {
+                    if (todo.key == key) that.todos.splice(i, 1)
+                })
             }
-            this.todos.push(todo)
-            this.newItem = '' // 空にする
-          },
-          deleteItem(index) {
-            // 配列のindexを引数として取る
-            this.todos.splice(index, 1) // indexの1つ目を消す
-          },
         },
         computed: {
-          filteredList() {
-            return this.todos.filter((todo) => {
-              return todo.item.indexOf(this.query) !== -1 // 値が入っていないと-1を返すという仕様になっている
-            }) // computedの中には必ずreturnが必要
-          },
-        },
-      })
-    </script>
-  </body>
-</html>
+            filteredList() {
+                let that = this
+                return this.todos.filter(todo => todo.item.indexOf(that.query) !== -1) // 値が入っていないと-1を返すという仕様になっている
+            }
+        }
+    })
+</script>
 ```
 
 ## 45 表示時 ・ クリック時の Ajax
