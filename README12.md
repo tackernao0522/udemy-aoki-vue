@@ -48,8 +48,8 @@ https://router.vuejs.org/ja/guide/#html <br>
   </head>
 
   <body>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://unpkg.com/vue-router@3.0.7/dist/vue-router.js"></script>
 
     <div id="app">
       <h1>Hello App!</h1>
