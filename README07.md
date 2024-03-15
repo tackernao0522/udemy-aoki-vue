@@ -498,6 +498,8 @@ _.throttle(fn, 1000) // 実行後 指定msは実行しない
 </html>
 ```
 
+- `ブラウザのサイズを変えて見る`
+
 ```browser:console
 7lodash.html:16 リサイズしたよ
 ```
